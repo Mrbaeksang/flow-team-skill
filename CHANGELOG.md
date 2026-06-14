@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-06-14
+
+### Added
+- `setup.mjs` — interactive one-step API-key setup for non-developers (paste key → writes `.env`); `npm run setup`.
+- Workflow recipes: `meeting-to-tasks.md`, `weekly-report.md`, `overdue-triage.md` (joining `daily-brief.md`).
+- README "무엇을 만들 수 있나" section and a non-developer key-setup path (ask the AI, or `setup.mjs`).
+
+### Changed
+- Clarified that the agent runtime is Claude Code / claude.ai (subscription) — no Anthropic API billing key is needed; the only secret is the user's Flow key.
+
 ## [0.1.0] - 2026-06-14
 
 ### Added
@@ -22,5 +32,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Standard repo scaffolding: README, LICENSE (MIT), CONTRIBUTING, SECURITY,
   CODE_OF_CONDUCT, issue/PR templates, and CI.
 
-[Unreleased]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Mrbaeksang/flow-team-skill/releases/tag/v0.1.0

@@ -6,18 +6,26 @@
 
 > 사용자가 직접 코드를 짤 필요 없습니다. **API 키 한 줄만** 넣으면, 나머지는 에이전트가 합니다.
 
-## 빠른 시작 (3단계)
+> 💡 **별도 결제 없음.** 에이전트 두뇌는 **Claude Code 또는 claude.ai(구독제)** 가 맡습니다. Anthropic API 종량제 키 불필요 — 넣을 키는 본인 **Flow 키 하나뿐**입니다.
 
+## 빠른 시작 — 키 넣는 법 (셋 중 하나)
+
+**① AI한테 맡기기 (비개발자 추천)** — 이 폴더를 Claude Code로 열고 한마디:
+> "내 Flow API 키는 `여기에-키` 야. 세팅해줘."
+
+→ 클로드가 `.env`를 알아서 만들어줍니다. 파일 직접 안 건드림.
+
+**② 자동 세팅 스크립트** — 키 붙여넣기 한 번:
 ```bash
-# 1. 키 보관 파일 만들기 (이 한 곳에만 넣습니다)
-cp .env.example .env
-
-# 2. .env 를 열어 본인 키만 채우기 — 발급: Flow 키관리 페이지
-#    FLOW_API_KEY=여기에-본인-키
-
-# 3. 동작 확인
-node skills/flow-team/scripts/flow.mjs me
+node setup.mjs        # 키 물어보면 붙여넣기 → .env 자동 생성
 ```
+
+**③ 손으로** — 개발자라면:
+```bash
+cp .env.example .env  # 그리고 .env 의 FLOW_API_KEY= 뒤에 키 입력
+```
+
+확인: `node skills/flow-team/scripts/flow.mjs me` → 내 이름이 나오면 끝.
 
 `.env` 는 `.gitignore` 에 등록돼 있어 **절대 커밋·노출되지 않습니다.** 키를 넣는 곳은 오직 여기 한 곳뿐입니다.
 
@@ -44,6 +52,7 @@ node skills/flow-team/scripts/flow.mjs me
 ```
 flow-team-skill/
 ├── README.md            ← 지금 이 문서
+├── setup.mjs            ← 키 붙여넣기 → .env 자동 생성 (비개발자용)
 ├── .env.example         ← 복사해서 .env 만들고 키만 채우기
 ├── .gitignore           ← .env 차단
 └── skills/
@@ -51,17 +60,32 @@ flow-team-skill/
         ├── SKILL.md            ← 에이전트 행동 지침 (선제안 포함)
         ├── reference/API.md    ← 전 엔드포인트 스키마 + 함정 (실호출 검증)
         ├── scripts/flow.mjs    ← 무의존성 클라이언트 (.env 자동 로드)
-        └── examples/           ← 데일리 브리핑 등 레시피
+        └── examples/           ← 데일리 브리핑·회의록→업무·주간리포트·마감트리아지
 ```
 
-## 할 수 있는 일 (요약)
+## 무엇을 만들 수 있나 (워크플로 예시)
+
+이 스킬을 얹은 클로드한테 자연어로 시키면 되는 것들 — 레시피는 [`examples/`](skills/flow-team/examples/)에:
+
+| 워크플로 | 한 줄 | 쓰기 |
+|---|---|---|
+| 📋 [데일리 브리핑](skills/flow-team/examples/daily-brief.md) | 마감 임박 업무 + 안 읽은 알림 + 오늘 일정 요약 | 읽기 |
+| 📝 [회의록 → 업무](skills/flow-team/examples/meeting-to-tasks.md) | 노트 붙여넣기 → 액션아이템 추출 → 담당자/마감 달아 업무 생성 | ✍️ |
+| 📊 [주간 리포트](skills/flow-team/examples/weekly-report.md) | 프로젝트별 완료/진행/지연 종합 | 읽기 |
+| ⏰ [마감 트리아지](skills/flow-team/examples/overdue-triage.md) | 지난 업무 찾아 연장·재배정·알림 제안 | ✍️ |
+
+직접 시켜보기 (Claude Code에서):
+> "이 스킬로 내 Flow 오늘 브리핑 해줘"
+> "회의록 붙여넣을게, 액션아이템 업무로 만들어줘"
+
+### 능력 요약
 
 - 📋 내 프로젝트/업무 현황, 칸반 상태 조회
 - ✅ 업무 생성·상태/담당자/마감 변경, 게시글·할일·일정 작성
 - 📅 캘린더 일정 조회/생성/삭제, 이번 주 일정 브리핑
 - 👥 구성원 검색(이름→ID), 프로젝트 참여자 확인
 - 🔔 안 읽은 알림 모아보기
-- 🤖 위 모든 걸 합쳐 "오늘의 브리핑" 같은 다단계 작업 + **선제안**
+- 🤖 위 모든 걸 합쳐 다단계 작업 + **선제안**
 
 전체 능력·스키마는 [`skills/flow-team/reference/API.md`](skills/flow-team/reference/API.md) 참고.
 
