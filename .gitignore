@@ -1,0 +1,13 @@
+# Secrets — the user's API key lives here and must never be committed
+.env
+.env.local
+*.key
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
