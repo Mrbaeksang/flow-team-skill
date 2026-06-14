@@ -2,6 +2,10 @@
 .env
 .env.local
 *.key
+# Plaintext key hand-off files imported by setup.mjs (deleted after import)
+flow-key.txt
+FLOW_KEY.txt
+key.txt
 
 # Node
 node_modules/
