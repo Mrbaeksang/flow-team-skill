@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      # Syntax-check the client. No live API call in CI — that needs a secret key,
+      # which by policy never lives in this repo.
+      - name: Syntax check
+        run: npm run check
+      - name: Guard against committed secrets
+        run: |
+          if git ls-files | grep -E '(^|/)\.env$'; then
+            echo "::error::.env must never be committed"; exit 1
+          fi
+          if grep -RInE 'x-flow-api-key"?\s*[:=]\s*"?[0-9a-f]{8}-' --include='*.mjs' --include='*.md' .; then
+            echo "::error::A raw API key may be hardcoded"; exit 1
+          fi
+          echo "no secrets found"
