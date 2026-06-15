@@ -7,6 +7,11 @@ A multi-step agent task that mirrors the agent loop — gather → synthesize �
 Produce a short morning brief: tasks that need attention, unread alarms, and today's
 calendar — then offer to post it to a project or act on what's overdue.
 
+> **Fast path:** `node scripts/brief.mjs [YYYYMMDD]` already implements steps 1–5 (read-only)
+> and prints the synthesized brief. Run it first; fall back to the manual steps below only to
+> customize. The script encodes the verified task-column parsing — see the recipe in
+> [`reference/API.md`](../reference/API.md).
+
 ## Steps
 
 1. **Identity & scope**
@@ -22,8 +27,11 @@ calendar — then offer to post it to a project or act on what's overdue.
    - `flow.events(start, end)` → `data.events[]` (use `eventStartDateTime`, `eventName`)
 
 4. **At-risk tasks** (across the top few active projects)
-   - `flow.tasks(projectId, { pageSize: 50 })` → inspect each task's STATUS column
-   - Flag tasks not `complete` whose end-date is past/near today.
+   - `flow.tasks(projectId, { pageSize: 50 })` → parse `columns[]` by `defaultColumnType`
+     (`TASK_NM`/`STATUS`/`WORKER_ID`/`END_DT`) — see the parsing recipe in `reference/API.md`.
+   - Flag tasks not `complete` whose `END_DT` is past/near today.
+   - **Only some tasks carry `END_DT`** — report a "no-deadline" count too, don't imply the
+     deadline view is complete.
 
 5. **Synthesize** a brief like:
    ```

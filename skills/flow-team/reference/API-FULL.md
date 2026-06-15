@@ -15,7 +15,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Query Parameters
 Parameter Type Example Description
 cursor string 0 페이징 커서 (page size: 500)
@@ -151,7 +151,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 
 ### Response
 Response API 응답 데이터 정보
@@ -265,7 +265,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 사용자 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 사용자 API Key
 Path Parameters
 Parameter Type Example Description
 projectId* string 317938 프로젝트 ID
@@ -366,7 +366,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 projectId* string 940907 프로젝트ID
@@ -497,7 +497,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 projectId* string 317536 프로젝트 ID
@@ -611,7 +611,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 projectId* string 317536 프로젝트 ID
@@ -729,7 +729,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Request Body
 Parameter Type Example Description
 title* string 테스트 프로젝트 프로젝트 제목
@@ -863,7 +863,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 projectId* string 230194 프로젝트ID
@@ -999,7 +999,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 
 ### Response
 Response API 응답 데이터 정보
@@ -1130,7 +1130,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Query Parameters
 Parameter Type Example Description
 cursor string 0 페이징 커서 (page size: 100)
@@ -1248,7 +1248,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 
 ### Response
 Response API 응답 데이터 정보
@@ -1363,7 +1363,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 userId* string flow@flow.team 사용자(구성원)ID
@@ -1490,7 +1490,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 projectId* string 23277 프로젝트 ID
@@ -1608,7 +1608,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 사용자 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 사용자 API Key
 Path Parameters
 Parameter Type Example Description
 postId* string 40001 게시글 ID
@@ -1709,7 +1709,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 사용자 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 사용자 API Key
 Path Parameters
 Parameter Type Example Description
 projectId* string 317938 프로젝트 ID
@@ -1854,7 +1854,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 projectId* string 940907 프로젝트ID
@@ -2004,7 +2004,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 projectId* string 940907 프로젝트ID
@@ -2165,7 +2165,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 projectId* string 317536 프로젝트ID
@@ -2279,7 +2279,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 projectId* string 940907 프로젝트ID
@@ -2387,7 +2387,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 projectId* string 940907 프로젝트ID
@@ -2495,7 +2495,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 projectId* string 940907 프로젝트ID
@@ -2602,7 +2602,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 projectId* string 940907 프로젝트ID
@@ -2721,7 +2721,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 projectId* string 940907 프로젝트ID
@@ -2881,7 +2881,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 projectId* string 940907 프로젝트ID
@@ -3039,7 +3039,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 
 ### Response
 Response API 응답 데이터 정보
@@ -3140,7 +3140,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 
 ### Response
 Response API 응답 데이터 정보
@@ -3230,7 +3230,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Query Parameters
 Parameter Type Example Description
 searchWord* string 홍길동 캘린더 검색어
@@ -3366,7 +3366,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Query Parameters
 Parameter Type Example Description
 userId string flow@flow.team 일정을 조회할 사용자 ID. 입력하지 않으면 인증된 사용자 ID를 사용합니다.
@@ -3484,7 +3484,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 eventSrno* string 123456789 일정 일련번호
@@ -3574,7 +3574,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Request Body
 Parameter Type Example Description
 calendarSrno* string 12345 캘린더 일련번호
@@ -3731,7 +3731,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 eventSrno* string 987654321 수정할 일정 일련번호
@@ -3885,7 +3885,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Path Parameters
 Parameter Type Example Description
 eventSrno* string 987654321 삭제할 일정 일련번호
@@ -3990,7 +3990,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Query Parameters
 Parameter Type Example Description
 searchWord* string 회의 검색어
@@ -4133,7 +4133,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Query Parameters
 Parameter Type Example Description
 searchWord* string 회의 검색어
@@ -4274,7 +4274,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Query Parameters
 Parameter Type Example Description
 searchWord string 홍 직원 검색어
@@ -4397,7 +4397,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 API Key
 Query Parameters
 Parameter Type Example Description
 searchWord* string 회의 일정명 검색어
@@ -4521,7 +4521,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 사용자 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 사용자 API Key
 Query Parameters
 Parameter Type Example Description
 filters string MENTION,WORKER 알림 필터 목록
@@ -4636,7 +4636,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 사용자 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 사용자 API Key
 Request Body
 Parameter Type Example Description
 alarmId* string 900001 읽음 처리할 알림 ID
@@ -4732,7 +4732,7 @@ Request API 요청 데이터 정보
 Header Parameters
 Parameter Type Example Description
 Content-Type* string application/json 요청 데이터 형식
-x-flow-api-key* string dd9dcb4c-1f79-4eb8-9522-940fdefe6c1e 키관리 페이지에서 발급받은 사용자 API Key
+x-flow-api-key* string <API_KEY> 키관리 페이지에서 발급받은 사용자 API Key
 Request Body
 Parameter Type Example Description
 projectId string 317536 특정 프로젝트 알림만 전체 읽음 처리할 때 사용하는 프로젝트 ID

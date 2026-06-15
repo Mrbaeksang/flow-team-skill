@@ -1,6 +1,6 @@
 {
   "name": "flow-team-skill",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Agent skill package for the Flow (flow.team) Open API — read, act, and proactively suggest across projects, tasks, calendar, members, search, and alarms.",
   "type": "module",
   "license": "MIT",
@@ -31,8 +31,9 @@
   },
   "scripts": {
     "setup": "node setup.mjs",
-    "check": "node --check skills/flow-team/scripts/flow.mjs",
-    "me": "node skills/flow-team/scripts/flow.mjs me"
+    "check": "node --check setup.mjs && node --check skills/flow-team/scripts/flow.mjs && node --check skills/flow-team/scripts/brief.mjs",
+    "me": "node skills/flow-team/scripts/flow.mjs me",
+    "brief": "node skills/flow-team/scripts/brief.mjs"
   },
   "files": [
     "skills",

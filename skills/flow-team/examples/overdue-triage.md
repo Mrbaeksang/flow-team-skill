@@ -10,9 +10,12 @@ reassign, or nudge — acting only on confirmation.
 ## Steps
 
 1. **Scope** — `flow.myProjects()`; iterate the active ones (or ask).
-2. **Pull tasks** — `flow.tasks(projectId, { pageSize: 100 })` per project.
-3. **Flag** any task that is not `complete` and whose end-date column is before/near today
+2. **Pull tasks** — `flow.tasks(projectId, { pageSize: 100 })` per project. Parse `columns[]`
+   by `defaultColumnType` (`TASK_NM`/`STATUS`/`WORKER_ID`/`END_DT`) — see the parsing recipe in
+   [`reference/API.md`](../reference/API.md). (`scripts/brief.mjs` already does this extraction.)
+3. **Flag** any task that is not `complete` and whose `END_DT` is before/near today
    (`YYYYMMDD`). Note its `taskId`, `projectId`, title, owner, and due date.
+   **Tasks without `END_DT` are invisible to this view** — surface their count separately.
 4. **Present** the at-risk list, worst first:
    ```
    ⏰ 마감 점검
@@ -25,6 +28,8 @@ reassign, or nudge — acting only on confirmation.
    - Assign an owner → resolve via `flow.findEmployees(name)` then
      `flow.setTaskWorkers(projectId, taskId, [{ workerId }])` (must be a participant)
    - Move status → `flow.setTaskStatus(projectId, taskId, "progress")`
+     (legacy enum `request|progress|feedback|complete|hold`; **Task 2.0 boards** need the
+     status option's `optionSrno` from `flow.statusColumn(projectId)` instead — see `API.md`)
 
 ## Notes
 

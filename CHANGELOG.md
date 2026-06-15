@@ -6,6 +6,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-06-15
+
+### Added
+- `skills/flow-team/scripts/brief.mjs` — one-shot daily brief (overdue/today/upcoming tasks
+  + unread alarms with mention priority + today's events), auto-dated, read-only. `npm run brief`.
+- `skills/flow-team/reference/API-FULL.md` — verbatim per-endpoint Request/Response/Error
+  schemas for all 39 User-API endpoints, scraped from the Developer Portal.
+- `flow.mjs` client wrappers for previously missing endpoints: `divisions` (GET),
+  `updateEvent` (PATCH calendar event), `createProject`, `addParticipants`; `divisions` in the CLI.
+
+### Changed
+- `API.md`: added the verified task `columns[]` parsing recipe (TASK_NM/STATUS/WORKER_ID/END_DT),
+  documented `GET /user/divisions`, the calendar-event update PATCH, verified write bodies for
+  `POST /user/projects` and `.../participants` (key is `participantId`), the Task 2.0 `optionSrno`
+  status path (mutually exclusive with `status`), and verified `alarms/read` bodies.
+- `npm run check` now syntax-checks `setup.mjs` and `brief.mjs` too (was `flow.mjs` only).
+
+### Notes
+- Sparse task deadlines: only some tasks carry `END_DT`; deadline-based views must surface a
+  "no-deadline" count rather than implying full coverage.
+
 ## [0.2.0] - 2026-06-14
 
 ### Added
@@ -32,6 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Standard repo scaffolding: README, LICENSE (MIT), CONTRIBUTING, SECURITY,
   CODE_OF_CONDUCT, issue/PR templates, and CI.
 
-[Unreleased]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Mrbaeksang/flow-team-skill/releases/tag/v0.1.0

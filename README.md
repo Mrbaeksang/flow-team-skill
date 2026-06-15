@@ -37,6 +37,12 @@ cp .env.example .env  # 그리고 .env 의 FLOW_API_KEY= 뒤에 키 입력
 
 에이전트는 [`skills/flow-team/SKILL.md`](skills/flow-team/SKILL.md) 를 읽고 → 필요한 API를 루프로 호출해 상황을 모은 뒤 → **마감 임박 업무·안 읽은 알림·오늘 일정**을 짚어주고 다음 행동을 제안합니다. (Claude Code면 `skills/` 가 자동 인식됩니다.)
 
+**바로 써보기 (키 세팅 후):**
+```bash
+npm run brief        # 오늘 데일리 브리핑 한 방 (읽기 전용)
+npm run me           # 키 동작 확인 (내 이름 출력)
+```
+
 ## API 키는 어떻게 안전한가
 
 | | |

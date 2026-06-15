@@ -129,6 +129,10 @@ export const flow = {
   createTask: (projectId, body) => post(`/user/posts/projects/${projectId}/tasks`, body),
   setTaskStatus: (projectId, taskId, status) =>
     patch(`/user/posts/projects/${projectId}/tasks/${taskId}/status`, { status }),
+  // Task 2.0 boards: set status by the option's srno (from statusColumn). Mutually
+  // exclusive with `status` — the API rejects sending both.
+  setTaskStatusOption: (projectId, taskId, optionSrno) =>
+    patch(`/user/posts/projects/${projectId}/tasks/${taskId}/status`, { optionSrno }),
   setTaskStartDate: (projectId, taskId, startDate) =>
     patch(`/user/posts/projects/${projectId}/tasks/${taskId}/start-date`, { startDate }),
   setTaskEndDate: (projectId, taskId, endDate) =>
