@@ -50,24 +50,42 @@ function key() {
   return k;
 }
 
-/** Low-level request. Unwraps the { response: {...} } envelope and throws on failure. */
-export async function call(method, path, body) {
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/** Low-level request. Unwraps the { response: {...} } envelope and throws on failure.
+ *  Auto-retries on 429 (rate limit, 120 req/min) with backoff — important for the
+ *  brief/report (~60+ calls) and unattended scheduled runs. Set { retries: 0 } to disable. */
+export async function call(method, path, body, { retries = 3 } = {}) {
   const opts = {
     method,
     headers: { "Content-Type": "application/json", "x-flow-api-key": key() },
   };
   if (body !== undefined) opts.body = JSON.stringify(body);
-  const res = await fetch(BASE + path, opts);
-  const text = await res.text();
-  let json;
-  try { json = JSON.parse(text); }
-  catch { throw new Error(`Non-JSON response (${res.status}): ${text.slice(0, 200)}`); }
-  const r = json.response ?? json;
-  if (r.success === false) {
-    const e = r.error ?? {};
-    throw new Error(`Flow API ${r.code} ${e.code ?? ""}: ${e.message ?? r.message ?? "error"}`);
+
+  for (let attempt = 0; ; attempt++) {
+    const res = await fetch(BASE + path, opts);
+    const text = await res.text();
+    let json;
+    try { json = JSON.parse(text); }
+    catch { throw new Error(`Non-JSON response (${res.status}): ${text.slice(0, 200)}`); }
+    const r = json.response ?? json;
+    const code = r.code ?? res.status;
+
+    if ((res.status === 429 || code === 429) && attempt < retries) {
+      const retryAfter = Number(res.headers.get("retry-after"));
+      const waitMs = Number.isFinite(retryAfter) && retryAfter > 0
+        ? retryAfter * 1000
+        : [5000, 15000, 30000][attempt] ?? 30000;
+      console.error(`[flow] 429 rate-limited — retry in ${waitMs / 1000}s (${attempt + 1}/${retries})`);
+      await sleep(waitMs);
+      continue;
+    }
+    if (r.success === false) {
+      const e = r.error ?? {};
+      throw new Error(`Flow API ${r.code} ${e.code ?? ""}: ${e.message ?? r.message ?? "error"}`);
+    }
+    return r.data;
   }
-  return r.data;
 }
 
 const get = (p) => call("GET", p);

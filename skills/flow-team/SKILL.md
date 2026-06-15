@@ -55,7 +55,7 @@ Always read `response.data` — `scripts/flow.mjs` unwraps it for you.
 | Unread alarms | `GET /user/alarms` → `data.alarms.alarms[]`, filter `readYn === "N"` |
 | Org division tree | `GET /user/divisions` |
 | **Full daily brief in one shot** | `node scripts/brief.mjs [YYYYMMDD]` — overdue/today/upcoming tasks + unread alarms + today's events, synthesized |
-| **Auto-post a daily report** | `node scripts/report.mjs [--dry]` — brief + day-over-day diff, posted to a report project (`FLOW_REPORT_PROJECT`, default 2896369). Schedule it for a hands-off daily report. |
+| **Auto-post a daily report** | `node scripts/report.mjs [--dry]` — brief + day-over-day diff, posted to a report project (`FLOW_REPORT_PROJECT`, default 2896369). Schedule daily via [`SCHEDULING.md`](SCHEDULING.md) (`npm run schedule:setup`). |
 
 The **complete** endpoint list, request/response schemas, paging, and the field-name
 gotchas live in [`reference/API.md`](reference/API.md). Read it before composing any

@@ -21,6 +21,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - `report.mjs` posts clean plain text now — Flow posts don't render Markdown, so `#`/`##`/backticks were showing up literally in the published report.
 
+### Added (robustness & scheduling)
+- `flow.mjs` `call()` auto-retries on `429` (rate limit) with backoff — keeps the ~60-call
+  brief/report and unattended scheduled runs from failing on a transient limit.
+- `scripts/schedule-setup.mjs` (`npm run schedule:setup`) — prints a ready-to-install macOS
+  launchd job (with correct absolute paths) to run the daily report on a schedule; prints only,
+  never touches the system.
+- `SCHEDULING.md` — launchd (local) vs cloud routine, rate-limit & snapshot notes.
+
 ### Changed
 - **Write endpoints live-verified against the API** (createProject/Task/Todo/Schedule/Event,
   update/deleteEvent, task date & priority PATCHes, addParticipants) — including a real daily
