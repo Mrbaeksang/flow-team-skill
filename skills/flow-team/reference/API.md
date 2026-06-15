@@ -3,6 +3,10 @@
 Base URL: `https://api.flow.team`
 Portal: Developer Portal 2.0.11
 
+> This file is the curated, hand-verified reference. For the **raw per-endpoint
+> Request/Response/Error schemas scraped verbatim from the Developer Portal** (all 39
+> User-API endpoints), see [`API-FULL.md`](API-FULL.md).
+
 All requests require these headers:
 
 ```
@@ -48,11 +52,21 @@ Board columns. → `data.columns[]`: `{ columnSrno, columnName, columnType, defa
 Status-column options. → `data.options[]`: `{ optionSrno, optionName, optionColor, optionCategory, optionOrder }`
 (e.g. 대기 / 진행 / …; `optionCategory` 0=todo, 1=in-progress, …)
 
-### `POST /user/projects` ⚪
-Create a project. Body unverified — see portal Request tab before use.
+### `POST /user/projects` ✅
+Create a project. Body:
+```json
+{ "title": "테스트 프로젝트",        // required, 1–50 chars
+  "description": "OpenAPI로 생성",   // optional, 1–10000
+  "defaultTab": "feed",             // optional: feed | task | gantt | calendar | file
+  "postPermission": { "view": "all", "write": "all" } }  // optional; view: all | registerAndAdmin
+```
+Required: `title`.
 
-### `POST /user/projects/{projectId}/participants` ⚪
-Add participants. Body unverified.
+### `POST /user/projects/{projectId}/participants` ✅
+Add participants. Body — note the key is **`participantId`** (login id or email), not `workerId`:
+```json
+{ "participants": [{ "participantId": "user@company.name" }] }   // min 1
+```
 
 ---
 
@@ -141,7 +155,11 @@ Create a task (업무). Body:
 Required: `title`, `contents`, `status`. → `data`: `{ projectId, postId, taskId, tinyUrl }`
 
 ### `PATCH /user/posts/projects/{projectId}/tasks/{taskId}/status` ✅
-`{ "status": "progress" }`  (request|progress|feedback|complete|hold)
+`{ "status": "progress" }`  (legacy enum: request|progress|feedback|complete|hold)
+**Task 2.0 boards** use a custom status option instead: send `{ "optionSrno": "18307" }`
+(the status option's srno, from `GET .../columns/status`). **`status` and `optionSrno` are
+mutually exclusive** — sending both is rejected. Reads return the Korean `optionName`
+(대기/진행/…), but writes need the English enum *or* the `optionSrno`.
 
 ### `PATCH /user/posts/projects/{projectId}/tasks/{taskId}/start-date` ✅
 `{ "startDate": "20260615" }`  (YYYYMMDD)
@@ -269,11 +287,13 @@ All require `searchWord`. Events search additionally requires the 14-digit range
    registrantYn, workerYn }`
 Unread = `readYn === "N"`.
 
-### `PATCH /user/alarms/read` ⚪
-Mark a single alarm read. Body likely `{ alarmId }` — unverified (avoid casual use).
+### `PATCH /user/alarms/read` ✅
+Mark a single alarm read. Body: `{ "alarmId": "900001" }`. (Not in the convenience layer
+— call `call("PATCH", "/user/alarms/read", { alarmId })` deliberately.)
 
-### `PATCH /user/alarms/read/all` ⚪
-Mark ALL alarms read. Destructive to inbox state — use deliberately.
+### `PATCH /user/alarms/read/all` ✅
+Mark ALL alarms read. Body: `{ "projectId": "317536" }` (optional — scope to one project;
+omit to clear the whole inbox). Destructive to inbox state — use deliberately.
 
 ---
 
