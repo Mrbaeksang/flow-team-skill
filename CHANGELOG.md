@@ -11,9 +11,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   "clone and analyze this repo" onboards itself: read `SKILL.md`, guide key setup, lead with
   `npm run brief`, and act proactively. Targets the non-developer "analyze this for me" flow.
 
+### Added
+- `skills/flow-team/scripts/report.mjs` — deterministic daily auto-report: builds the brief,
+  diffs it against yesterday's snapshot (`~/.flow-report-snapshot.json`), and posts it to a
+  report project (`FLOW_REPORT_PROJECT`, default `2896369`). `npm run report` (`--dry` to preview).
+- `brief.mjs` refactored to export `gatherBrief()` / `renderBrief()` so `report.mjs` and agents
+  reuse the same gather logic instead of re-deriving it.
+
 ### Changed
 - **Write endpoints live-verified against the API** (createProject/Task/Todo/Schedule/Event,
-  update/deleteEvent, task date & priority PATCHes, addParticipants).
+  update/deleteEvent, task date & priority PATCHes, addParticipants) — including a real daily
+  report posted via `createPost`.
+- Documented the **120 requests/minute rate limit** (`429`); a full brief/report is ~60+ calls,
+  so back-to-back runs trip it.
 - **Status PATCH gotcha (verified):** on current boards the legacy `{ status }` string returns
   success but silently no-ops — you must send `{ optionSrno }`. Docs now lead with `optionSrno`
   / `setTaskStatusOption`, and `overdue-triage.md` recommends it over `setTaskStatus`.

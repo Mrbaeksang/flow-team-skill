@@ -31,9 +31,10 @@
   },
   "scripts": {
     "setup": "node setup.mjs",
-    "check": "node --check setup.mjs && node --check skills/flow-team/scripts/flow.mjs && node --check skills/flow-team/scripts/brief.mjs",
+    "check": "node --check setup.mjs && node --check skills/flow-team/scripts/flow.mjs && node --check skills/flow-team/scripts/brief.mjs && node --check skills/flow-team/scripts/report.mjs",
     "me": "node skills/flow-team/scripts/flow.mjs me",
-    "brief": "node skills/flow-team/scripts/brief.mjs"
+    "brief": "node skills/flow-team/scripts/brief.mjs",
+    "report": "node skills/flow-team/scripts/report.mjs"
   },
   "files": [
     "skills",

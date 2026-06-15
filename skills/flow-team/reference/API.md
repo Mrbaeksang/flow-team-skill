@@ -305,6 +305,9 @@ omit to clear the whole inbox). Destructive to inbox state — use deliberately.
 ## Common conventions
 
 - **Auth:** `x-flow-api-key` header. Invalid key → `401 UNAUTHORIZED_ERROR`.
+- **Rate limit: 120 requests/minute** → `429 RATE_LIMIT_EXCEEDED_ERROR` (verified). A full
+  brief/report scans one `tasks` call per project (~60+), so running it 2–3× in a minute trips
+  the limit. Space runs out, or narrow scope with `FLOW_REPORT_PROJECT` / a project whitelist.
 - **Paging:** `cursor` in, `{ hasNext, lastCursor }` out; loop until `hasNext === false`.
 - **Dates:** tasks/todos `YYYYMMDD`; schedules/events/search `YYYYMMDDHHmmss`.
 - **All-day flag type differs:** schedule `isAllDay` boolean vs event `allDayYn` "Y"/"N".
