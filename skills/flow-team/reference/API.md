@@ -70,6 +70,11 @@ My member info — same fields, flat under `data`.
 ### `GET /user/employees/{userId}` ✅
 Single member — same fields.
 
+### `GET /user/divisions` ✅
+Org division tree (부서). → `data`: `{ divisions[] }`
+`divisions[]`: `{ divisionCode, divisionName, upperDivisionCode }` — `upperDivisionCode`
+links each node to its parent (`""` at the root). Useful for org context in briefings.
+
 ---
 
 ## User Posts (게시글 · 업무 · 일정 · 할일)
@@ -94,6 +99,21 @@ Task board query. Query params:
 `tasks[]`: `{ taskId, postId, projectId, projectTitle, upTaskId, subTaskCount, managerYn,
    content, columns[] }` — each `columns[]` is `{ columnId, columnType, columnData[] }`
    (STATUS column's `columnData[].optionName` = current status, etc.)
+
+**Parsing recipe (verified live).** The fields you actually want live in `columns[]`,
+keyed by `defaultColumnType`, with the value in `columnData[0]`:
+| want | `defaultColumnType` | read from `columnData[0]` |
+|---|---|---|
+| title | `TASK_NM` | `customColumnData` |
+| status | `STATUS` | `optionName` (e.g. 대기/진행/완료/보류 — **custom per project**) |
+| assignee(s) | `WORKER_ID` | `userName` / `customColumnData` (= userId) — may repeat |
+| deadline | `END_DT` (a `DATE` column) | `customColumnData` = `YYYYMMDDHHmmss` (use first 8) |
+| start | `START_DT` | `customColumnData` |
+| created/edited | `RGSN_DTTM` / `EDTR_DTTM` | `customColumnData` |
+A task is **"mine"** when any `WORKER_ID` value equals my `userId`. **Many tasks have no
+`END_DT`** (only deadline-bearing tasks do), so deadline-based views silently skip them —
+surface a "no-deadline" count rather than assuming everything is covered. See
+[`scripts/brief.mjs`](../scripts/brief.mjs) for a working overdue/today/upcoming extractor.
 
 ### `POST /user/posts/projects/{projectId}` ✅
 Create a post (게시글). Body:
@@ -183,7 +203,16 @@ Events in a range. Query (both required, 14-digit): `startDateTime`, `endDateTim
    eventFinishDateTime, allDayYn, privateYn, publicYn, gmtTime, timezone, calendarName, ... }`
 
 ### `GET /user/calendars/events/{eventSrno}` ✅
-Single event detail.
+Single event detail. → `data`: `{ event: { ... } }` (note the nested `event` key).
+
+### `PATCH /user/calendars/events/{eventSrno}` ✅
+Update an event. Body mirrors create (`eventStart/FinishTimestamp`, 14-digit). Calendar
+events are the **only** updatable/deletable entity in the API.
+
+> **Calendar reach (verified):** `GET /user/calendars/events` returns events only from
+> calendars you already have (personal + subscribed). Team calendars surface via
+> `subscribables` but the API exposes **no subscribe endpoint and no per-calendar event
+> query**, so team/project calendar events can't be pulled into a briefing today.
 
 ### `POST /user/calendars/events` ✅
 Create an event. Body:
@@ -257,3 +286,6 @@ Mark ALL alarms read. Destructive to inbox state — use deliberately.
 - **Event create vs read field names:** create `eventStart/FinishTimestamp`; read `eventStart/FinishDateTime`.
 - **Participants gate:** assignees/attendees must belong to the project (else `412`).
 - **No delete for posts/tasks/schedules/todos** — only calendar events are deletable.
+- **Alarms are nested + paged:** `data.alarms.alarms[]` with its own `{ hasNext, lastCursor }`;
+  filter `readYn === "N"` for unread, and prioritise `mentionYn === "Y"` / `workerYn === "Y"`.
+- **Task deadlines are sparse:** only some tasks carry `END_DT`; don't equate "no overdue" with "nothing pending".

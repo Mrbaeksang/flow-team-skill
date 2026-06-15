@@ -60,6 +60,7 @@ flow-team-skill/
         ├── SKILL.md            ← 에이전트 행동 지침 (선제안 포함)
         ├── reference/API.md    ← 전 엔드포인트 스키마 + 함정 (실호출 검증)
         ├── scripts/flow.mjs    ← 무의존성 클라이언트 (.env 자동 로드)
+        ├── scripts/brief.mjs   ← 데일리 브리핑 한 방 실행 (node scripts/brief.mjs)
         └── examples/           ← 데일리 브리핑·회의록→업무·주간리포트·마감트리아지
 ```
 

@@ -52,7 +52,9 @@ Always read `response.data` — `scripts/flow.mjs` unwraps it for you.
 | Create a task | `POST /user/posts/projects/{projectId}/tasks` |
 | Move a task / set dates | `PATCH .../tasks/{taskId}/status` · `/end-date` · `/worker` … |
 | This week's calendar | `GET /user/calendars/events?startDateTime=…&endDateTime=…` |
-| Unread alarms | `GET /user/alarms` → filter `readYn === "N"` |
+| Unread alarms | `GET /user/alarms` → `data.alarms.alarms[]`, filter `readYn === "N"` |
+| Org division tree | `GET /user/divisions` |
+| **Full daily brief in one shot** | `node scripts/brief.mjs [YYYYMMDD]` — overdue/today/upcoming tasks + unread alarms + today's events, synthesized |
 
 The **complete** endpoint list, request/response schemas, paging, and the field-name
 gotchas live in [`reference/API.md`](reference/API.md). Read it before composing any

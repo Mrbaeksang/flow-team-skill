@@ -103,6 +103,7 @@ export const flow = {
   employees: (cursor = 0) => get("/user/employees" + qs({ cursor })),
   employee: (userId) => get(`/user/employees/${encodeURIComponent(userId)}`),
   findEmployees: (searchWord) => get("/user/search/employees" + qs({ searchWord })),
+  divisions: () => get("/user/divisions"),
 
   // projects
   projects: () => get("/user/projects"),
@@ -112,6 +113,9 @@ export const flow = {
   columns: (id) => get(`/user/projects/${id}/columns`),
   statusColumn: (id) => get(`/user/projects/${id}/columns/status`),
   findProjects: (searchWord) => get("/user/search/projects" + qs({ searchWord })),
+  createProject: (body) => post("/user/projects", body),
+  addParticipants: (projectId, body) =>
+    post(`/user/projects/${projectId}/participants`, body),
 
   // posts / tasks
   posts: (projectId, { cursor, pageSize } = {}) =>
@@ -146,6 +150,7 @@ export const flow = {
   findEvents: (searchWord, startDateTime, endDateTime) =>
     get("/user/search/events" + qs({ searchWord, startDateTime, endDateTime })),
   createEvent: (body) => post("/user/calendars/events", body),
+  updateEvent: (eventSrno, body) => patch(`/user/calendars/events/${eventSrno}`, body),
   deleteEvent: (eventSrno) => del(`/user/calendars/events/${eventSrno}`),
 
   // alarms
@@ -165,9 +170,10 @@ if (isMain) {
     alarms: () => flow.alarms(),
     events: () => flow.events(args[0], args[1]),
     employees: () => flow.employees(),
+    divisions: () => flow.divisions(),
   }[cmd];
   if (!run) {
-    console.error("usage: node scripts/flow.mjs <me|projects|tasks <pid>|alarms|events <start14> <end14>|employees>");
+    console.error("usage: node scripts/flow.mjs <me|projects|tasks <pid>|alarms|events <start14> <end14>|employees|divisions>");
     process.exit(1);
   }
   run().then((d) => console.log(JSON.stringify(d, null, 2)))
