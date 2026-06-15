@@ -6,6 +6,8 @@
 
 > 사용자가 직접 코드를 짤 필요 없습니다. **API 키 한 줄만** 넣으면, 나머지는 에이전트가 합니다.
 
+> 🤖 **비개발자라면:** Claude Code(또는 Codex 등) 에이전트에게 이 레포를 주고 **"이 레포 분석해서 내 Flow 도와줘"** 라고만 하세요. 에이전트는 루트의 [`AGENTS.md`](AGENTS.md)를 읽고 → 스킬을 파악하고 → 키 세팅을 안내한 뒤 → 오늘 브리핑부터 알아서 제안합니다.
+
 > 💡 **별도 결제 없음.** 에이전트 두뇌는 **Claude Code 또는 claude.ai(구독제)** 가 맡습니다. Anthropic API 종량제 키 불필요 — 넣을 키는 본인 **Flow 키 하나뿐**입니다.
 
 ## 빠른 시작 — 키 넣는 법 (셋 중 하나)
@@ -35,7 +37,9 @@ cp .env.example .env  # 그리고 .env 의 FLOW_API_KEY= 뒤에 키 입력
 
 > "이 레포의 `skills/flow-team` 스킬을 써서 내 Flow 오늘 할 일 브리핑해줘."
 
-에이전트는 [`skills/flow-team/SKILL.md`](skills/flow-team/SKILL.md) 를 읽고 → 필요한 API를 루프로 호출해 상황을 모은 뒤 → **마감 임박 업무·안 읽은 알림·오늘 일정**을 짚어주고 다음 행동을 제안합니다. (Claude Code면 `skills/` 가 자동 인식됩니다.)
+에이전트는 [`AGENTS.md`](AGENTS.md) → [`skills/flow-team/SKILL.md`](skills/flow-team/SKILL.md) 를 읽고 → 필요한 API를 루프로 호출해 상황을 모은 뒤 → **마감 임박 업무·안 읽은 알림·오늘 일정**을 짚어주고 다음 행동을 제안합니다.
+
+> 참고: "이 레포 분석해줘" 식으로 쓰면 위처럼 `AGENTS.md`/`SKILL.md`를 진입점으로 따라갑니다. **Claude Code의 스킬로 영구 등록**하려면 `skills/flow-team` 을 `~/.claude/skills/`(또는 프로젝트 `.claude/skills/`)에 두세요 — 그래야 자동 인식됩니다.
 
 **바로 써보기 (키 세팅 후):**
 ```bash
