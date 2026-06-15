@@ -18,6 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `brief.mjs` refactored to export `gatherBrief()` / `renderBrief()` so `report.mjs` and agents
   reuse the same gather logic instead of re-deriving it.
 
+### Fixed
+- `report.mjs` posts clean plain text now — Flow posts don't render Markdown, so `#`/`##`/backticks were showing up literally in the published report.
+
 ### Changed
 - **Write endpoints live-verified against the API** (createProject/Task/Todo/Schedule/Event,
   update/deleteEvent, task date & priority PATCHes, addParticipants) — including a real daily

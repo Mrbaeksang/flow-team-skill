@@ -43,7 +43,18 @@ if (!prev) {
   diff = parts.map((p) => `- ${p}`).join("\n");
 }
 
-const body = renderBrief(d) + `\n\n## 🔄 전일 대비 변화\n${diff}\n\n— 자동 생성 (report.mjs)`;
+// Flow posts do NOT render Markdown — `#`/`##`/backticks show up literally. Convert the
+// brief's Markdown to clean plain text before posting.
+const toFlowText = (s) => s
+  .split("\n")
+  .map((line) =>
+    line.startsWith("## ") ? "■ " + line.slice(3)
+    : line.startsWith("# ") ? line.slice(2)
+    : line)
+  .join("\n")
+  .replace(/`/g, "");
+
+const body = toFlowText(renderBrief(d) + `\n\n## 🔄 전일 대비 변화\n${diff}\n\n— 자동 생성 (report.mjs)`);
 const title = `📋 데일리 보고서 — ${fmtD(today)}`;
 
 if (dry) {
