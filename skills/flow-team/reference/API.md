@@ -154,12 +154,17 @@ Create a task (업무). Body:
 ```
 Required: `title`, `contents`, `status`. → `data`: `{ projectId, postId, taskId, tinyUrl }`
 
-### `PATCH /user/posts/projects/{projectId}/tasks/{taskId}/status` ✅
-`{ "status": "progress" }`  (legacy enum: request|progress|feedback|complete|hold)
-**Task 2.0 boards** use a custom status option instead: send `{ "optionSrno": "18307" }`
-(the status option's srno, from `GET .../columns/status`). **`status` and `optionSrno` are
-mutually exclusive** — sending both is rejected. Reads return the Korean `optionName`
-(대기/진행/…), but writes need the English enum *or* the `optionSrno`.
+### `PATCH /user/posts/projects/{projectId}/tasks/{taskId}/status` ⚠️ (live-verified)
+Two ways to set status — **pick the right one or the call silently does nothing:**
+- **Preferred — `{ "optionSrno": "866935" }`** — the status option's srno from
+  `GET .../columns/status`. This is what works on current ("2.0") boards.
+- Legacy — `{ "status": "progress" }` (enum: request|progress|feedback|complete|hold).
+
+**⚠️ Verified gotcha:** on a board created via the OpenAPI, `{ "status": "progress" }`
+returns `success: true` **but does not change anything** — the status stays put. Use
+`optionSrno` (via `flow.setTaskStatusOption(...)`). `status` and `optionSrno` are mutually
+exclusive. Reads return the Korean `optionName` (대기/진행/완료/…); `columns/status` maps each
+name → `optionSrno` and `optionCategory` (0=todo, 1=in-progress, 2=done, 3=hold).
 
 ### `PATCH /user/posts/projects/{projectId}/tasks/{taskId}/start-date` ✅
 `{ "startDate": "20260615" }`  (YYYYMMDD)
@@ -305,7 +310,14 @@ omit to clear the whole inbox). Destructive to inbox state — use deliberately.
 - **All-day flag type differs:** schedule `isAllDay` boolean vs event `allDayYn` "Y"/"N".
 - **Event create vs read field names:** create `eventStart/FinishTimestamp`; read `eventStart/FinishDateTime`.
 - **Participants gate:** assignees/attendees must belong to the project (else `412`).
-- **No delete for posts/tasks/schedules/todos** — only calendar events are deletable.
+- **No delete for posts/tasks/schedules/todos/projects** — only calendar events are deletable.
+  (So a test project, once created, stays — label it clearly.)
+- **`deleteEvent` quirk (verified):** after delete, `GET /user/calendars/events/{srno}` may
+  still return the record, but the range query `GET /user/calendars/events` no longer lists it —
+  trust the range list, not the by-srno read, to confirm deletion.
+- **Writes are live-verified** (2026-06-15): createProject/Task/Todo/Schedule/Event,
+  update/deleteEvent, the task date & priority PATCHes, and addParticipants all confirmed
+  against the live API. The one trap is the status PATCH above.
 - **Alarms are nested + paged:** `data.alarms.alarms[]` with its own `{ hasNext, lastCursor }`;
   filter `readYn === "N"` for unread, and prioritise `mentionYn === "Y"` / `workerYn === "Y"`.
 - **Task deadlines are sparse:** only some tasks carry `END_DT`; don't equate "no overdue" with "nothing pending".

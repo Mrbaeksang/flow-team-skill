@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   "clone and analyze this repo" onboards itself: read `SKILL.md`, guide key setup, lead with
   `npm run brief`, and act proactively. Targets the non-developer "analyze this for me" flow.
 
+### Changed
+- **Write endpoints live-verified against the API** (createProject/Task/Todo/Schedule/Event,
+  update/deleteEvent, task date & priority PATCHes, addParticipants).
+- **Status PATCH gotcha (verified):** on current boards the legacy `{ status }` string returns
+  success but silently no-ops — you must send `{ optionSrno }`. Docs now lead with `optionSrno`
+  / `setTaskStatusOption`, and `overdue-triage.md` recommends it over `setTaskStatus`.
+- Documented the `deleteEvent` read-by-srno quirk (confirm deletion via the range query).
+
 ### Fixed
 - README no longer claims a bare `skills/` dir is auto-recognized; documents that Claude Code
   skill auto-discovery needs `~/.claude/skills/` (or project `.claude/skills/`), while the

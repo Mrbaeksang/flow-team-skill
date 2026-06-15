@@ -27,9 +27,10 @@ reassign, or nudge — acting only on confirmation.
    - Bump priority → `flow.setTaskPriority(projectId, taskId, "urgent")`
    - Assign an owner → resolve via `flow.findEmployees(name)` then
      `flow.setTaskWorkers(projectId, taskId, [{ workerId }])` (must be a participant)
-   - Move status → `flow.setTaskStatus(projectId, taskId, "progress")`
-     (legacy enum `request|progress|feedback|complete|hold`; **Task 2.0 boards** need the
-     status option's `optionSrno` from `flow.statusColumn(projectId)` instead — see `API.md`)
+   - Move status → resolve the target option's `optionSrno` via `flow.statusColumn(projectId)`,
+     then `flow.setTaskStatusOption(projectId, taskId, optionSrno)`. **Don't rely on
+     `flow.setTaskStatus(..., "progress")`** — on current boards the legacy string returns
+     success but silently does nothing (verified). See `API.md`.
 
 ## Notes
 
