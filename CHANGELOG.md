@@ -6,11 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-06-16
+
 ### Added
 - 5 more recipes (catalog now 14): `standup-bot`, `meeting-prep`, `schedule-to-task`,
   `project-kickoff`, `inbox-to-todo` — exercising less-used APIs (search/findPosts,
   createTodo, createProject + addParticipants, calendar→task). `recommend.mjs` picks them up
   automatically. Every card carries 기대효과 / 응답 예시 / live-verified gotchas.
+- Every recipe card fleshed out with 무엇 / 기대효과 / 흐름 / 응답 예시 / 배운 것(실호출 검증) / 안전.
 
 ## [0.4.0] - 2026-06-16
 
@@ -121,7 +124,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Standard repo scaffolding: README, LICENSE (MIT), CONTRIBUTING, SECURITY,
   CODE_OF_CONDUCT, issue/PR templates, and CI.
 
-[Unreleased]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.1.0...v0.2.0

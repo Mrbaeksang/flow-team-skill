@@ -1,6 +1,6 @@
 {
   "name": "flow-team-skill",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Agent skill package for the Flow (flow.team) Open API — read, act, and proactively suggest across projects, tasks, calendar, members, search, and alarms.",
   "type": "module",
   "license": "MIT",
