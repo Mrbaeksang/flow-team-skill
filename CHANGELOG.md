@@ -21,6 +21,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - `report.mjs` posts clean plain text now — Flow posts don't render Markdown, so `#`/`##`/backticks were showing up literally in the published report.
 
+### Changed (richer report)
+- `report.mjs` is now a **decision-first executive brief**: a top "오늘 결정할 것" queue and a
+  bottom "추천 액션" list, plus this-week calendar, workload distribution, status mix, near-term
+  unassigned tasks, and mentions enriched with the post they're on (`flow.post`).
+- `brief.mjs` `gatherBrief()` gained `{ deep }`, accurate done-detection via status
+  `optionCategory` (2=done/3=hold), week events, distribution, and scoped unassigned tasks.
+- Surfaced that the 429-retry fix also **fixes silent undercounts** — rate-limited project
+  scans used to be skipped, undercounting open tasks; full scans now report the true number.
+
 ### Added (robustness & scheduling)
 - `flow.mjs` `call()` auto-retries on `429` (rate limit) with backoff — keeps the ~60-call
   brief/report and unattended scheduled runs from failing on a transient limit.

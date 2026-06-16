@@ -29,7 +29,7 @@ const taskIdOf = (t) => t.taskId;
 const DONE = ["완료", "운영 확인 완료", "보류"]; // statuses treated as not-actionable
 
 // ---- gather (read-only): returns structured data, no rendering ----
-export async function gatherBrief(today, { projectFilter = [] } = {}) {
+export async function gatherBrief(today, { projectFilter = [], deep = false } = {}) {
   const me = await flow.me();
   const ME = me.userId;
   const SOON = Number(addDays(today, 3));
@@ -37,22 +37,41 @@ export async function gatherBrief(today, { projectFilter = [] } = {}) {
 
   const { projects } = await flow.myProjects();
   const scope = projectFilter.length ? projects.filter((p) => projectFilter.includes(p.projectId)) : projects;
-  const mine = [];
+  const mine = [], ownerlessAll = [];
   for (const p of scope) {
     let data; try { data = await flow.tasks(p.projectId, { pageSize: 100 }); } catch { continue; }
     for (const t of data.tasks ?? []) {
-      if (!workersOf(t).includes(ME)) continue;
-      mine.push({ project: p.title, projectId: p.projectId, taskId: taskIdOf(t),
-        title: col(t, "TASK_NM")?.customColumnData ?? "(무제)", status: col(t, "STATUS")?.optionName ?? "", end: endOf(t) });
+      const ws = workersOf(t);
+      const st = col(t, "STATUS");
+      const rec = { project: p.title, projectId: p.projectId, taskId: taskIdOf(t),
+        title: col(t, "TASK_NM")?.customColumnData ?? "(무제)",
+        status: st?.optionName ?? "", statusCat: st?.optionCategory ?? "", end: endOf(t), workers: ws };
+      if (ws.includes(ME)) mine.push(rec);
+      else if (ws.length === 0) ownerlessAll.push(rec); // unassigned tasks in my projects
     }
   }
-  const open = mine.filter((t) => !DONE.includes(t.status));
+  // "not actionable" = explicit names OR status category 2 (done) / 3 (hold)
+  const isDone = (t) => DONE.includes(t.status) || ["2", "3"].includes(String(t.statusCat));
+  const open = mine.filter((t) => !isDone(t));
   const dated = open.filter((t) => t.end);
   const overdue = dated.filter((t) => num8(t.end) < TODAY).sort((a, b) => num8(a.end) - num8(b.end));
   const dueToday = dated.filter((t) => num8(t.end) === TODAY);
   const soon = dated.filter((t) => num8(t.end) > TODAY && num8(t.end) <= SOON).sort((a, b) => num8(a.end) - num8(b.end));
   const noDue = open.filter((t) => !t.end);
 
+  // workload distribution (my open tasks by project) + status mix
+  const byProject = {};
+  for (const t of open) byProject[t.project] = (byProject[t.project] || 0) + 1;
+  const distribution = Object.entries(byProject).map(([project, count]) => ({ project, count })).sort((a, b) => b.count - a.count);
+  const statusMix = {};
+  for (const t of open) statusMix[t.status || "(없음)"] = (statusMix[t.status || "(없음)"] || 0) + 1;
+  // unassigned open tasks with a NEAR-TERM deadline (today..+14) — actionable, not ancient noise
+  const ownerWindow = Number(addDays(today, 14));
+  const ownerless = ownerlessAll
+    .filter((t) => !isDone(t) && t.end && num8(t.end) >= TODAY && num8(t.end) <= ownerWindow)
+    .sort((a, b) => num8(a.end) - num8(b.end));
+
+  // alarms (cursor-paged)
   let unread = [], cursor = 0;
   for (let i = 0; i < 20; i++) {
     const d = (await call("GET", `/user/alarms?cursor=${cursor}`)).alarms;
@@ -63,10 +82,21 @@ export async function gatherBrief(today, { projectFilter = [] } = {}) {
   const mentions = unread.filter((a) => a.mentionYn === "Y");
   const asWorker = unread.filter((a) => a.mentionYn !== "Y" && a.workerYn === "Y");
 
-  const ev = await flow.events(`${today}000000`, `${today}235959`);
-  const events = (ev.events ?? []).sort((a, b) => Number(a.eventStartDateTime) - Number(b.eventStartDateTime));
+  // deep: enrich each mention with the title of the post it's on (capped)
+  if (deep) {
+    for (const a of mentions.slice(0, 6)) {
+      try { const p = await flow.post(a.postId); a.postTitle = (p.title ?? p.post?.title ?? "").slice(0, 50); } catch { /* ignore */ }
+    }
+  }
 
-  return { me, today, mine, open, overdue, dueToday, soon, noDue, unread, mentions, asWorker, events };
+  // calendar: this week (today..+6), with today split out
+  const weekEnd = addDays(today, 6);
+  const ev = await flow.events(`${today}000000`, `${weekEnd}235959`);
+  const weekEvents = (ev.events ?? []).sort((a, b) => Number(a.eventStartDateTime) - Number(b.eventStartDateTime));
+  const events = weekEvents.filter((e) => String(e.eventStartDateTime).slice(0, 8) === today);
+
+  return { me, today, mine, open, overdue, dueToday, soon, noDue, distribution, statusMix, ownerless,
+    unread, mentions, asWorker, events, weekEvents };
 }
 
 // ---- render: structured data → text brief ----
