@@ -16,6 +16,11 @@ script: null                # npm script name if runnable, else null
 ---
 ```
 
+Below the frontmatter, every card carries: **무엇 · 기대효과 · 흐름(API 조합) · 응답 예시 ·
+배운 것(실호출 검증 함정) · 안전**. The "배운 것" sections capture gotchas found by actually
+calling the API (e.g. the status-PATCH silent no-op, the 120/min rate limit, `412` on
+non-participants) so the next agent doesn't rediscover them.
+
 ## Recommendation flow (맞춤 추천)
 
 When the user asks *"뭘 자동화하면 좋을까?"* / *"추천해줘"*:
