@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- 5 more recipes (catalog now 14): `standup-bot`, `meeting-prep`, `schedule-to-task`,
+  `project-kickoff`, `inbox-to-todo` — exercising less-used APIs (search/findPosts,
+  createTodo, createProject + addParticipants, calendar→task). `recommend.mjs` picks them up
+  automatically. Every card carries 기대효과 / 응답 예시 / live-verified gotchas.
+
 ## [0.4.0] - 2026-06-16
 
 ### Added

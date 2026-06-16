@@ -100,6 +100,9 @@ flow-team-skill/
 | 🗣️ [멘션 인박스 제로](skills/flow-team/recipes/mention-zero.md) | 나 멘션한 알림 모아 원문+답글 초안 | ✍️ |
 | 👤 [담당 없는 업무 배정](skills/flow-team/recipes/assign-ownerless.md) | 임박한데 담당 없는 업무 찾아 배정 | ✍️ |
 | 📊 [주간 리포트](skills/flow-team/recipes/weekly-report.md) · [프로젝트 헬스체크](skills/flow-team/recipes/project-health.md) | 현황 종합 / 위험 프로젝트 | 읽기 |
+| 🧍 [스탠드업 봇](skills/flow-team/recipes/standup-bot.md) · 📌 [마감 일괄 부여](skills/flow-team/recipes/bulk-deadline.md) | 3줄 스탠드업 게시 / 마감없는 업무 일괄 부여 | ✍️ |
+| 🗓️ [회의 준비](skills/flow-team/recipes/meeting-prep.md) · [일정→준비 업무](skills/flow-team/recipes/schedule-to-task.md) | 회의별 관련글 수집 / 일정→업무 | 읽기·✍️ |
+| 🚀 [프로젝트 킥오프](skills/flow-team/recipes/project-kickoff.md) · 📥 [알림→할일](skills/flow-team/recipes/inbox-to-todo.md) | 프로젝트 생성+팀+업무 / 알림→체크리스트 | ✍️ |
 
 > 🎁 **뭘 할지 모르겠으면:** "추천해줘" → `recommend.mjs`가 **내 데이터(밀린·멘션·담당없음…)를 보고 맞는 레시피를 순위로** 제안. 새 레시피는 `recipes/_TEMPLATE.md`로 직접 추가하거나 AI에게 만들어 달라고 하면 됨.
 
