@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-06-16
+
 ### Added
 - `AGENTS.md` + `CLAUDE.md` at the repo root — entry-point instructions so any agent told to
   "clone and analyze this repo" onboards itself: read `SKILL.md`, guide key setup, lead with
@@ -113,7 +115,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Standard repo scaffolding: README, LICENSE (MIT), CONTRIBUTING, SECURITY,
   CODE_OF_CONDUCT, issue/PR templates, and CI.
 
-[Unreleased]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Mrbaeksang/flow-team-skill/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Mrbaeksang/flow-team-skill/releases/tag/v0.1.0
