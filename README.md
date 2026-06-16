@@ -81,24 +81,31 @@ flow-team-skill/
         ├── SKILL.md            ← 에이전트 행동 지침 (선제안 포함)
         ├── reference/API.md    ← 전 엔드포인트 스키마 + 함정 (실호출 검증)
         ├── scripts/flow.mjs    ← 무의존성 클라이언트 (.env 자동 로드)
-        ├── scripts/brief.mjs   ← 데일리 브리핑 한 방 실행 (node scripts/brief.mjs)
-        └── examples/           ← 데일리 브리핑·회의록→업무·주간리포트·마감트리아지
+        ├── scripts/brief.mjs   ← 데일리 브리핑 (node scripts/brief.mjs)
+        ├── scripts/report.mjs  ← 의사결정형 보고서 자동발행
+        ├── scripts/recommend.mjs ← 내 데이터 기반 맞춤 레시피 추천
+        └── recipes/            ← API 조합 "셋" 카탈로그 (frontmatter로 추천 매칭)
 ```
 
-## 무엇을 만들 수 있나 (워크플로 예시)
+## 무엇을 만들 수 있나 (레시피 카탈로그)
 
-이 스킬을 얹은 클로드한테 자연어로 시키면 되는 것들 — 레시피는 [`examples/`](skills/flow-team/examples/)에:
+자연어로 시키면 되는 "셋"들 — 전체 목록은 [`recipes/`](skills/flow-team/recipes/), 카탈로그 설명은 [`recipes/_index.md`](skills/flow-team/recipes/_index.md):
 
-| 워크플로 | 한 줄 | 쓰기 |
+| 레시피 | 한 줄 | 쓰기 |
 |---|---|---|
-| 📋 [데일리 브리핑](skills/flow-team/examples/daily-brief.md) | 마감 임박 업무 + 안 읽은 알림 + 오늘 일정 요약 | 읽기 |
-| 📝 [회의록 → 업무](skills/flow-team/examples/meeting-to-tasks.md) | 노트 붙여넣기 → 액션아이템 추출 → 담당자/마감 달아 업무 생성 | ✍️ |
-| 📊 [주간 리포트](skills/flow-team/examples/weekly-report.md) | 프로젝트별 완료/진행/지연 종합 | 읽기 |
-| ⏰ [마감 트리아지](skills/flow-team/examples/overdue-triage.md) | 지난 업무 찾아 연장·재배정·알림 제안 | ✍️ |
+| 📋 [데일리 브리핑](skills/flow-team/recipes/daily-brief.md) | 마감 임박 업무 + 안 읽은 알림 + 오늘 일정 요약 | 읽기 |
+| 🤖 [데일리 보고서 자동발행](skills/flow-team/recipes/daily-report.md) | 의사결정형 보고서를 매일 Flow에 게시 | ✍️ |
+| 📝 [회의록 → 업무](skills/flow-team/recipes/meeting-to-tasks.md) | 노트 → 액션아이템 → 담당/마감 달아 업무 생성 | ✍️ |
+| ⏰ [마감 트리아지](skills/flow-team/recipes/overdue-triage.md) | 밀린 업무 찾아 연장·재배정·완료 제안 | ✍️ |
+| 🗣️ [멘션 인박스 제로](skills/flow-team/recipes/mention-zero.md) | 나 멘션한 알림 모아 원문+답글 초안 | ✍️ |
+| 👤 [담당 없는 업무 배정](skills/flow-team/recipes/assign-ownerless.md) | 임박한데 담당 없는 업무 찾아 배정 | ✍️ |
+| 📊 [주간 리포트](skills/flow-team/recipes/weekly-report.md) · [프로젝트 헬스체크](skills/flow-team/recipes/project-health.md) | 현황 종합 / 위험 프로젝트 | 읽기 |
+
+> 🎁 **뭘 할지 모르겠으면:** "추천해줘" → `recommend.mjs`가 **내 데이터(밀린·멘션·담당없음…)를 보고 맞는 레시피를 순위로** 제안. 새 레시피는 `recipes/_TEMPLATE.md`로 직접 추가하거나 AI에게 만들어 달라고 하면 됨.
 
 직접 시켜보기 (Claude Code에서):
-> "이 스킬로 내 Flow 오늘 브리핑 해줘"
-> "회의록 붙여넣을게, 액션아이템 업무로 만들어줘"
+> "추천해줘 — 내 상황에 뭐가 유용해?"
+> "오늘 브리핑 해줘" · "회의록 붙여넣을게, 업무로 만들어줘"
 
 ### 능력 요약
 

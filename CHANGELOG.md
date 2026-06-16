@@ -21,6 +21,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - `report.mjs` posts clean plain text now — Flow posts don't render Markdown, so `#`/`##`/backticks were showing up literally in the published report.
 
+### Added (recipe catalog + recommendation engine)
+- `skills/flow-team/recipes/` — a catalog of API-combination "sets", each a card with
+  machine-readable frontmatter (`apis`, `mode`, `signals`, `script`). Seeded with 9: daily-brief,
+  daily-report, weekly-report, overdue-triage, meeting-to-tasks, mention-zero, assign-ownerless,
+  project-health, bulk-deadline — plus `_index.md` and `_TEMPLATE.md` for authoring your own.
+- `scripts/profile.mjs` — computes the user's signals (overdue, unreadMentions, ownerless,
+  noDeadline, projects, weekMeetings…) from their key. `npm run profile`.
+- `scripts/recommend.mjs` — matches recipe `signals` against the profile and prints a
+  personalized, urgency-ranked shortlist with the real numbers. `npm run recommend`.
+- SKILL.md "Recommend mode"; README/AGENTS point to the catalog.
+- Migrated `examples/` → `recipes/` (structured cards).
+
 ### Changed (richer report)
 - `report.mjs` is now a **decision-first executive brief**: a top "오늘 결정할 것" queue and a
   bottom "추천 액션" list, plus this-week calendar, workload distribution, status mix, near-term

@@ -56,6 +56,19 @@ Always read `response.data` — `scripts/flow.mjs` unwraps it for you.
 | Org division tree | `GET /user/divisions` |
 | **Full daily brief in one shot** | `node scripts/brief.mjs [YYYYMMDD]` — overdue/today/upcoming tasks + unread alarms + today's events, synthesized |
 | **Auto-post a daily report** | `node scripts/report.mjs [--dry]` — brief + day-over-day diff, posted to a report project (`FLOW_REPORT_PROJECT`, default 2896369). Schedule daily via [`SCHEDULING.md`](SCHEDULING.md) (`npm run schedule:setup`). |
+| **Recommend what to automate** | `node scripts/recommend.mjs` — profiles the user's Flow and ranks the [`recipes/`](recipes/) that fit *them* right now. |
+
+## Recommend mode (맞춤 추천)
+
+When the user asks something like *"뭘 자동화하면 좋을까?" / "추천해줘" / "내 상황에 맞는 거"*:
+
+1. Run `node scripts/recommend.mjs` — it profiles their Flow (overdue, mentions, ownerless,
+   no-deadline, projects, meetings…) via their key and ranks the recipe catalog by what's most
+   actionable for them **with the real numbers**.
+2. Present the top 2–3 in your own words ("밀린 1건·담당없는 11건이라 마감 트리아지·담당 배정이 0순위예요"),
+   and offer to run one. Confirm before any `write` recipe.
+3. Each recipe lives in [`recipes/`](recipes/) with its API combination and steps. To add a new
+   one, copy `recipes/_TEMPLATE.md` (or scaffold it for the user from their description).
 
 The **complete** endpoint list, request/response schemas, paging, and the field-name
 gotchas live in [`reference/API.md`](reference/API.md). Read it before composing any

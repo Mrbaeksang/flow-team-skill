@@ -41,14 +41,19 @@ start writing application code; operate the skill.
   attendee must already be a project participant or the API returns `412`.
 - **Don't clear the alarm inbox casually** (`PATCH /user/alarms/read/all`).
 
-## What the user can just ask for (recipes in `skills/flow-team/examples/`)
+## What the user can just ask for (recipe catalog in `skills/flow-team/recipes/`)
 
 | Ask | Recipe |
 |---|---|
-| "오늘 브리핑 해줘" | `daily-brief.md` · or `npm run brief` |
-| "회의록 붙여넣을게, 업무로 만들어줘" | `meeting-to-tasks.md` |
-| "주간 리포트 정리해줘" | `weekly-report.md` |
-| "마감 지난 업무 점검해줘" | `overdue-triage.md` |
+| **"추천해줘 / 뭘 자동화하면 좋아?"** | `node scripts/recommend.mjs` — profiles their Flow, ranks the recipes that fit them now |
+| "오늘 브리핑 해줘" | `daily-brief` · or `npm run brief` |
+| "매일 보고서 자동으로 올려줘" | `daily-report` · `npm run report` (schedule via `SCHEDULING.md`) |
+| "회의록 붙여넣을게, 업무로 만들어줘" | `meeting-to-tasks` |
+| "마감 지난 업무 점검해줘" | `overdue-triage` |
+| "나 멘션된 거 정리해줘" | `mention-zero` |
+
+New recipes: copy `recipes/_TEMPLATE.md`, or scaffold one from the user's description. The
+catalog (`recipes/_index.md`) explains how recommendation matching works.
 
 ## Note on "installing" as a Claude Code skill (optional)
 

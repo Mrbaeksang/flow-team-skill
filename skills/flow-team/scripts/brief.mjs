@@ -96,7 +96,7 @@ export async function gatherBrief(today, { projectFilter = [], deep = false } = 
   const events = weekEvents.filter((e) => String(e.eventStartDateTime).slice(0, 8) === today);
 
   return { me, today, mine, open, overdue, dueToday, soon, noDue, distribution, statusMix, ownerless,
-    unread, mentions, asWorker, events, weekEvents };
+    unread, mentions, asWorker, events, weekEvents, projectCount: scope.length };
 }
 
 // ---- render: structured data → text brief ----

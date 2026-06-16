@@ -8,7 +8,7 @@ assignees: ''
 
 ## What would you like to add?
 
-<!-- e.g. coverage for an endpoint, a new flow.mjs helper, a recipe in examples/ -->
+<!-- e.g. coverage for an endpoint, a new flow.mjs helper, a recipe in recipes/ -->
 
 ## Why
 
