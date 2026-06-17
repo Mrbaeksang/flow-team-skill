@@ -31,7 +31,7 @@
   },
   "scripts": {
     "setup": "node setup.mjs",
-    "check": "for f in setup.mjs skills/flow-team/scripts/flow.mjs skills/flow-team/scripts/brief.mjs skills/flow-team/scripts/report.mjs skills/flow-team/scripts/profile.mjs skills/flow-team/scripts/recommend.mjs skills/flow-team/scripts/schedule-setup.mjs; do node --check \"$f\" || exit 1; done",
+    "check": "node check.mjs",
     "me": "node skills/flow-team/scripts/flow.mjs me",
     "brief": "node skills/flow-team/scripts/brief.mjs",
     "report": "node skills/flow-team/scripts/report.mjs",
@@ -42,6 +42,7 @@
   "files": [
     "skills",
     "setup.mjs",
+    "check.mjs",
     "README.md",
     "LICENSE",
     ".env.example"

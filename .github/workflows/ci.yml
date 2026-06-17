@@ -7,21 +7,29 @@ on:
     branches: [main]
 
 jobs:
+  # Syntax-check across all three OSes — proves the scripts are truly cross-platform.
+  # `npm run check` is Node-based (check.mjs), so it behaves identically everywhere.
   check:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
         node: [18, 20, 22]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-      # Syntax-check the client. No live API call in CI — that needs a secret key,
-      # which by policy never lives in this repo.
+      # No live API call in CI — that needs a secret key, which by policy never lives here.
       - name: Syntax check
         run: npm run check
+
+  # Secret guard uses Unix tooling — keep it on ubuntu only.
+  secret-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Guard against committed secrets
         run: |
           if git ls-files | grep -E '(^|/)\.env$'; then

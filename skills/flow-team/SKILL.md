@@ -30,6 +30,26 @@ A ready-to-use client lives in [`scripts/flow.mjs`](scripts/flow.mjs) (Node 18+,
 dependencies). It auto-loads the repo-root `.env`. Run `node scripts/flow.mjs me` to
 verify the key works.
 
+## Where this runs (cross-platform — read before running scripts)
+
+The user clones this repo and asks you to act, so **detect the environment first** and pick
+the right path. Don't assume macOS or a Unix shell.
+
+- **All `.mjs` scripts are pure Node** (`node:path`, `node:os`, global `fetch`) — they run
+  identically on **Windows, macOS, Linux** as long as Node 18+ is present. Always invoke them
+  as `node <script>`, never via a shell-specific wrapper.
+- **`npm run check` is Node-based** (`check.mjs`), so it's portable too — don't reintroduce
+  shell `for`/`&&` loops.
+- **Scheduling is OS-specific, and `schedule-setup.mjs` already branches for you:** it prints
+  **launchd** on macOS, **cron** on Linux, **schtasks (Task Scheduler)** on Windows. Just run
+  `node scripts/schedule-setup.mjs --hour=8` and hand the user the printed commands. For an
+  always-on schedule (machine may be off, or you're in a hosted/app context), use a **cloud
+  routine** instead of a local scheduler — see [`SCHEDULING.md`](SCHEDULING.md).
+- **No local shell / filesystem (claude.ai app or web)?** Then the `.mjs` scripts and local
+  scheduling don't apply. Read this SKILL + [`reference/API.md`](reference/API.md) and call the
+  Flow API **directly** (the response envelope and endpoints are the same); for automation,
+  reach for a cloud routine rather than launchd/cron.
+
 ## The response envelope (read this first)
 
 **Every** response is wrapped:

@@ -126,6 +126,8 @@ flow-team-skill/
 - Node.js 18+ (전역 `fetch` 사용, 추가 의존성 없음)
 - Flow Open API 키 (키관리 페이지에서 발급)
 
+> 💻 **어디서나 동일하게 동작:** 모든 스크립트는 순수 Node(`node:path`/`node:os`)라 **Windows·macOS·Linux**에서 똑같이 돕니다. 자동 발행 스케줄러는 OS를 감지해 launchd(mac)·cron(Linux)·작업 스케줄러(Windows)를 알맞게 출력합니다. 로컬 셸이 없는 앱/웹 환경에선 스크립트 대신 에이전트가 API를 직접 호출하고, 자동화는 클라우드 루틴을 씁니다. (CI가 3개 OS에서 검증)
+
 ## 보안 주의
 
 - API 키는 비밀입니다. 출력/커밋/스크린샷에 노출 금지 — `.env` 에만.

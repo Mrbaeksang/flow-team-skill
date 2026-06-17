@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed (cross-platform: same behavior on Windows / macOS / Linux)
+- `scripts/schedule-setup.mjs` now **auto-detects the OS** and prints the matching scheduler:
+  **launchd** (macOS, unchanged), **cron** (Linux), **schtasks / Task Scheduler** (Windows).
+  Was macOS-only before. Each printout includes test-now and remove-later commands for that OS.
+- `npm run check` replaced the bash `for` loop with a Node runner (`check.mjs`) — it recursively
+  syntax-checks every `.mjs` and runs identically on Windows (cmd/PowerShell), macOS, and Linux.
+- CI `check` job now runs on a 3-OS matrix (ubuntu/windows/macos × Node 18/20/22) to prove the
+  scripts are portable; the Unix-only secret guard moved to its own ubuntu job.
+
+### Added
+- SKILL.md "Where this runs (cross-platform)" — tells the agent to detect the environment first:
+  `.mjs` scripts are pure Node (run anywhere), scheduling is OS-specific (handled by
+  schedule-setup), and in an app/web context with no local shell it should call the API directly
+  and use a cloud routine instead of launchd/cron.
+- SCHEDULING.md gained an OS support matrix and folded all three local schedulers into Option A.
+
 ## [0.4.1] - 2026-06-16
 
 ### Added
