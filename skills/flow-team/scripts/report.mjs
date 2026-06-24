@@ -10,12 +10,14 @@
 
 import { flow } from "./flow.mjs";
 import { gatherBrief, fmtD, ymd, addDays } from "./brief.mjs";
+import { renderReportChart } from "./chart.mjs";
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
 
 const REPORT_PROJECT = process.env.FLOW_REPORT_PROJECT || "2896369";
 const SNAP = join(homedir(), ".flow-report-snapshot.json");
+const HIST = join(homedir(), ".flow-report-history.json"); // daily metric points for the trend chart
 
 const args = process.argv.slice(2);
 const dry = args.includes("--dry");
@@ -28,6 +30,8 @@ const fmtDW = (s) => `${fmtD(s)} (${weekday(s)})`;
 const t14 = (s) => `${String(s).slice(8, 10)}:${String(s).slice(10, 12)}`;
 const clip = (s, n) => (s || "").replace(/\s+/g, " ").trim().slice(0, n);
 const RULE = "──────────────────────────";
+// section header with the title embedded in the rule — readable even in a proportional font
+const sect = (label) => `\n━━━━━  ${label}  ━━━━━━━━━━━━━━━━━`;
 
 const d = await gatherBrief(today, { deep: true });
 
@@ -35,6 +39,19 @@ const d = await gatherBrief(today, { deep: true });
 const curOverdue = d.overdue.map((t) => t.title);
 const curDueToday = d.dueToday.map((t) => t.title);
 const prev = existsSync(SNAP) ? JSON.parse(readFileSync(SNAP, "utf8")) : null;
+
+// ---------- daily metric history (for the trend line chart) ----------
+const todayEntry = {
+  date: today, open: d.open.length, overdue: d.overdue.length, dueToday: d.dueToday.length,
+  noDue: d.noDue.length, ownerless: d.ownerless.length, unread: d.unread.length,
+};
+let histArr = existsSync(HIST) ? JSON.parse(readFileSync(HIST, "utf8")) : [];
+// seed one point from the old snapshot so the trend isn't a lone dot on first run
+if (!histArr.length && prev?.date && prev.date !== today) {
+  histArr.push({ date: prev.date, open: null, overdue: (prev.overdue || []).length, dueToday: (prev.dueToday || []).length, noDue: null, ownerless: null, unread: prev.unread ?? null });
+}
+const history = [...histArr.filter((h) => h.date !== today), todayEntry].sort((a, b) => Number(a.date) - Number(b.date));
+const prevPoint = history.filter((h) => h.date < today).slice(-1)[0] || null; // for KPI ▲▼
 let diffLines;
 if (!prev) {
   diffLines = ["· 전일 스냅샷 없음 (내일부터 변화 비교 시작)"];
@@ -78,62 +95,86 @@ if (d.ownerless.length) recs.push(`담당 없는 업무 ${d.ownerless.length}건
 if (!recs.length) recs.push("특별히 권할 액션 없음 — 오늘은 가볍게!");
 
 // ---------- compose ----------
-const taskLine = (t, withDate = true) => `   · ${withDate ? fmtD(t.end) + " " : ""}${t.title} 〈${t.project}〉${t.status ? " [" + t.status + "]" : ""}`;
-const evLine = (e, withDate = false) => `   · ${withDate ? fmtDW(String(e.eventStartDateTime).slice(0, 8)) + " " : ""}${e.allDayYn === "Y" ? "종일" : t14(e.eventStartDateTime) + "~" + t14(e.eventFinishDateTime)} ${e.eventName}${e.location ? " @" + e.location : ""}`;
-const mentionLine = (a) => `   · ${a.registerName}: "${clip(a.content || a.message, 50)}"${a.postTitle ? ` — 〈${a.postTitle}〉` : ""}`;
+const taskLine = (t, withDate = true) => `   ▸ ${withDate ? fmtD(t.end) + "  " : ""}${t.title}  〈${t.project}〉${t.status ? "  · " + t.status : ""}`;
+const evLine = (e, withDate = false) => `   ▸ ${withDate ? fmtDW(String(e.eventStartDateTime).slice(0, 8)) + "  " : ""}${e.allDayYn === "Y" ? "종일" : t14(e.eventStartDateTime) + "~" + t14(e.eventFinishDateTime)}  ${e.eventName}${e.location ? "  @" + e.location : ""}`;
+const mentionLine = (a) => `   ▸ ${a.registerName}: "${clip(a.content || a.message, 50)}"${a.postTitle ? `  — 〈${a.postTitle}〉` : ""}`;
+const none = (msg = "없음") => `   · ${msg}`;
 
 const L = [];
-L.push(`📋 ${d.me.fullname}님 데일리 보고서 · ${fmtDW(today)}`);
-L.push(`👤 ${d.me.divisionName} · ${d.me.responsibility}`);
-L.push(`📊 미완료 ${d.open.length} · 안읽은 알림 ${d.unread.length} · 오늘 일정 ${d.events.length} · 밀린 ${d.overdue.length}`);
+// ── header ──
+L.push(`📋  ${d.me.fullname}님 데일리 보고서`);
+L.push(`🗓️  ${fmtDW(today)}   ·   ${d.me.divisionName} · ${d.me.responsibility}`);
 L.push("");
-L.push("👉 오늘 결정할 것");
+// at-a-glance metric strip
+L.push(`📊  미완료 ${d.open.length}   ·   📭 안읽은 알림 ${d.unread.length}   ·   🗓️ 오늘 일정 ${d.events.length}   ·   🔴 밀린 ${d.overdue.length}`);
+
+// ── decisions ──
+L.push(sect("👉 오늘 결정할 것"));
 L.push(decisionBlock);
-L.push(`\n💬 한 줄: ${headline}`);
+L.push(`\n💬  한 줄 — ${headline}`);
 
-L.push(`\n${RULE}\n🔥 즉시 처리`);
+// ── immediate ──
+L.push(sect("🔥 즉시 처리"));
 L.push(`🔴 밀린 업무 (${d.overdue.length})`);
-L.push(d.overdue.length ? d.overdue.map((t) => taskLine(t)).join("\n") : "   · 없음 👍");
+L.push(d.overdue.length ? d.overdue.map((t) => taskLine(t)).join("\n") : none("없음 👍"));
+L.push("");
 L.push(`🗣️ 답해야 할 멘션 (${d.mentions.length})`);
-L.push(d.mentions.length ? d.mentions.slice(0, 6).map(mentionLine).join("\n") : "   · 없음");
+L.push(d.mentions.length ? d.mentions.slice(0, 6).map(mentionLine).join("\n") : none());
 
-L.push(`\n${RULE}\n📅 오늘 (${fmtDW(today)})`);
+// ── today ──
+L.push(sect(`📅 오늘 · ${fmtDW(today)}`));
 L.push(`🟡 오늘 마감 (${d.dueToday.length})`);
-L.push(d.dueToday.length ? d.dueToday.map((t) => taskLine(t, false)).join("\n") : "   · 없음");
+L.push(d.dueToday.length ? d.dueToday.map((t) => taskLine(t, false)).join("\n") : none());
+L.push("");
 L.push(`🗓️ 오늘 일정 (${d.events.length})`);
-L.push(d.events.length ? d.events.map((e) => evLine(e)).join("\n") : "   · 없음");
+L.push(d.events.length ? d.events.map((e) => evLine(e)).join("\n") : none());
 
+// ── week ahead ──
 const weekAhead = d.weekEvents.filter((e) => String(e.eventStartDateTime).slice(0, 8) !== today);
-L.push(`\n${RULE}\n🟢 이번 주 예보`);
-L.push(`임박 마감 ~${fmtD(addDays(today, 3))} (${d.soon.length})`);
-L.push(d.soon.length ? d.soon.map((t) => taskLine(t)).join("\n") : "   · 없음");
+L.push(sect("🟢 이번 주 예보"));
+L.push(`⏰ 임박 마감 ~${fmtD(addDays(today, 3))} (${d.soon.length})`);
+L.push(d.soon.length ? d.soon.map((t) => taskLine(t)).join("\n") : none());
+L.push("");
 L.push(`🗓️ 이번 주 남은 일정 (${weekAhead.length})`);
-L.push(weekAhead.length ? weekAhead.map((e) => evLine(e, true)).join("\n") : "   · 없음");
+L.push(weekAhead.length ? weekAhead.map((e) => evLine(e, true)).join("\n") : none());
 
-L.push(`\n${RULE}\n📊 현황`);
-const mix = Object.entries(d.statusMix).map(([k, v]) => `${k} ${v}`).join(" · ") || "-";
-L.push(`· 미완료 ${d.open.length} · 마감없음 ${d.noDue.length} · 담당없음(마감有) ${d.ownerless.length}`);
-L.push(`· 상태 분포: ${mix}`);
-const top = d.distribution.slice(0, 3).map((x) => `${x.project}(${x.count})`).join(" · ");
-if (top) L.push(`· 업무 몰린 프로젝트: ${top}`);
-if (d.ownerless.length) L.push(`· 담당 없는 업무(마감 임박):\n${d.ownerless.slice(0, 3).map((t) => taskLine(t)).join("\n")}`);
-if (d.noDue.length) L.push(`· 마감일 없는 미완료 ${d.noDue.length}건 (마감 기준 판단에서 빠짐)`);
+// ── status ──
+L.push(sect("📊 현황"));
+const mix = Object.entries(d.statusMix).map(([k, v]) => `${k} ${v}`).join("  ·  ") || "-";
+L.push(`   미완료 ${d.open.length}   ·   마감없음 ${d.noDue.length}   ·   담당없음(마감有) ${d.ownerless.length}`);
+L.push(`   상태 분포 — ${mix}`);
+const top = d.distribution.slice(0, 3).map((x) => `${x.project}(${x.count})`).join("  ·  ");
+if (top) L.push(`   업무 몰린 프로젝트 — ${top}`);
+if (d.ownerless.length) L.push(`\n   담당 없는 업무(마감 임박):\n${d.ownerless.slice(0, 3).map((t) => taskLine(t)).join("\n")}`);
+if (d.noDue.length) L.push(`   ℹ️ 마감일 없는 미완료 ${d.noDue.length}건 (마감 기준 판단에서 빠짐)`);
 
-L.push(`\n${RULE}\n🔄 전일 대비 변화`);
+// ── diff ──
+L.push(sect("🔄 전일 대비 변화"));
 L.push(diffLines.join("\n"));
 
-L.push(`\n${RULE}\n💡 추천 액션 (이렇게 시키면 제가 실행)`);
-L.push(recs.map((r) => ` • ${r}`).join("\n"));
+// ── recommended actions ──
+L.push(sect("💡 추천 액션 · 이렇게 시키면 제가 실행"));
+L.push(recs.map((r) => `   • ${r}`).join("\n"));
 
-L.push(`\n— 자동 생성 · report.mjs`);
+L.push(`\n──────────────────────────\n🤖 자동 생성 · 매일 08:00 · report.mjs`);
 
 const body = L.join("\n");
 const title = `📋 데일리 보고서 — ${fmtDW(today)}`;
+// one-line caption used when the image is present (Flow requires non-empty `contents`)
+const caption = `📋 ${d.me.fullname}님 데일리 보고서 · ${fmtDW(today)}  |  미완료 ${d.open.length} · 밀린 ${d.overdue.length} · 오늘마감 ${d.dueToday.length} · 멘션 ${d.mentions.length}  ⤵ 상세는 이미지 참고`;
+
+// rich-report chart (best-effort — null if Chrome missing / render fails)
+const chart = await renderReportChart(d, today, { history, prev: prevPoint });
+const imageFiles = chart ? [chart] : undefined;
+// image present → post the picture with just a one-line caption; otherwise fall back to the full text body
+const contents = chart ? caption : body;
 
 if (dry) {
-  console.log(`[DRY RUN] would post to project ${REPORT_PROJECT}\n\n${title}\n${RULE}\n${body}`);
+  const imgNote = chart ? `🖼️ 차트 첨부: ${chart.fileName} (${Math.round(chart.fileContents.length * 0.75 / 1024)}KB) — 본문은 캡션 1줄` : "🖼️ 차트 없음 (Chrome 미발견 또는 렌더 실패 → 텍스트 본문)";
+  console.log(`[DRY RUN] would post to project ${REPORT_PROJECT}\n${imgNote}\n📈 추세 데이터 ${history.length}점\n\n${title}\n${RULE}\n${contents}`);
 } else {
-  const r = await flow.createPost(REPORT_PROJECT, { title, contents: body });
-  console.log(`Posted: ${r.tinyUrl} (postId ${r.postId}, project ${REPORT_PROJECT})`);
+  const r = await flow.createPost(REPORT_PROJECT, { title, contents, ...(imageFiles ? { imageFiles } : {}) });
+  console.log(`Posted: ${r.tinyUrl} (postId ${r.postId}, project ${REPORT_PROJECT})${chart ? " +chart (image-only)" : " (text-only)"}`);
   writeFileSync(SNAP, JSON.stringify({ date: today, overdue: curOverdue, dueToday: curDueToday, unread: d.unread.length }, null, 2));
+  writeFileSync(HIST, JSON.stringify(history.slice(-90), null, 2)); // keep ~90 days
 }

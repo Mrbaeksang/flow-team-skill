@@ -80,6 +80,15 @@ export async function call(method, path, body, { retries = 3 } = {}) {
       await sleep(waitMs);
       continue;
     }
+    // transient server errors (5xx) — Flow occasionally 500s on a healthy key/endpoint
+    // (seen on /user/projects/participants). Retry with backoff so unattended runs survive.
+    const is5xx = res.status >= 500 || (code >= 500 && code < 600);
+    if (is5xx && attempt < retries) {
+      const waitMs = [1000, 3000, 8000][attempt] ?? 8000;
+      console.error(`[flow] ${code} server error — retry in ${waitMs / 1000}s (${attempt + 1}/${retries})`);
+      await sleep(waitMs);
+      continue;
+    }
     if (r.success === false) {
       const e = r.error ?? {};
       throw new Error(`Flow API ${r.code} ${e.code ?? ""}: ${e.message ?? r.message ?? "error"}`);
