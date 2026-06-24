@@ -1,37 +1,33 @@
-# Code of Conduct
+# 행동 강령
 
-## Our Pledge
+## 우리의 약속
 
-We as members, contributors, and maintainers pledge to make participation in this project
-a harassment-free experience for everyone, regardless of age, body size, visible or
-invisible disability, ethnicity, sex characteristics, gender identity and expression,
-level of experience, education, socio-economic status, nationality, personal appearance,
-race, religion, or sexual identity and orientation.
+구성원·기여자·관리자로서 우리는 나이, 신체 크기, 보이거나 보이지 않는 장애, 민족, 성적 특징,
+성 정체성과 표현, 경험 수준, 교육, 사회·경제적 지위, 국적, 외모, 인종, 종교, 성적 정체성과
+지향에 관계없이 모두가 이 프로젝트에 괴롭힘 없이 참여할 수 있도록 만들 것을 약속합니다.
 
-## Our Standards
+## 우리의 기준
 
-Examples of behavior that contributes to a positive environment:
+긍정적인 환경에 기여하는 행동의 예:
 
-- Being respectful of differing opinions, viewpoints, and experiences
-- Giving and gracefully accepting constructive feedback
-- Focusing on what is best for the community
-- Showing empathy toward other community members
+- 서로 다른 의견·관점·경험을 존중하기
+- 건설적인 피드백을 주고, 또 너그럽게 받아들이기
+- 커뮤니티에 가장 좋은 것이 무엇인지에 집중하기
+- 다른 구성원에게 공감하기
 
-Examples of unacceptable behavior:
+용납되지 않는 행동의 예:
 
-- Harassment, insulting or derogatory comments, and personal or political attacks
-- Publishing others' private information without explicit permission
-- Other conduct which could reasonably be considered inappropriate in a professional
-  setting
+- 괴롭힘, 모욕적이거나 비하하는 발언, 개인·정치적 공격
+- 명시적 허락 없이 타인의 사생활 정보를 공개하는 것
+- 그 밖에 전문적인 환경에서 부적절하다고 합리적으로 판단될 수 있는 행동
 
-## Enforcement
+## 시행
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to
-the maintainer at **qortkdgus95@gmail.com**. All complaints will be reviewed and
-investigated promptly and fairly.
+학대·괴롭힘 등 용납될 수 없는 행동은 관리자 이메일 **qortkdgus95@gmail.com** 으로 신고할 수
+있습니다. 모든 신고는 신속하고 공정하게 검토·조사됩니다.
 
-## Attribution
+## 출처
 
-This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 2.1.
+이 행동 강령은 [Contributor Covenant][homepage] 2.1 버전을 기반으로 합니다.
 
 [homepage]: https://www.contributor-covenant.org

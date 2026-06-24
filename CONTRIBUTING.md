@@ -1,50 +1,48 @@
-# Contributing to flow-team-skill
+# flow-team-skill 기여 가이드
 
-Thanks for helping improve the Flow agent skill! This repo is small and dependency-free
-by design — contributions should keep it that way.
+Flow 에이전트 스킬을 함께 다듬어 주셔서 감사합니다! 이 레포는 의도적으로 작고 의존성이 없습니다 —
+기여도 그 원칙을 지켜 주세요.
 
-## Ground rules
+## 기본 원칙
 
-- **Never commit secrets.** API keys live only in your local `.env` (gitignored). If you
-  ever paste a real key into a file, issue, or PR, rotate it immediately from Flow's
-  키관리 page.
-- **Keep it zero-dependency.** `scripts/flow.mjs` uses only Node 18+ built-ins. Don't add
-  npm dependencies without a strong reason and a discussion in an issue first.
-- **Verify against the real API.** When you add or change an endpoint, confirm the
-  request/response shape with a live call and mark it ✅ in `reference/API.md`. Use a
-  throwaway/test project for any write.
+- **비밀값을 절대 커밋하지 마세요.** API 키는 로컬 `.env`(gitignore 대상)에만 둡니다. 실제 키를
+  파일·이슈·PR에 붙여 넣었다면 즉시 Flow **키관리** 페이지에서 재발급하세요.
+- **의존성 0을 유지하세요.** `scripts/flow.mjs`는 Node 18+ 내장 기능만 씁니다. 충분한 이유와
+  이슈에서의 사전 논의 없이 npm 의존성을 추가하지 마세요.
+- **실제 API로 검증하세요.** 엔드포인트를 추가/변경하면 실호출로 요청·응답 형태를 확인하고
+  `reference/API.md`에 ✅로 표시하세요. 쓰기 작업은 버리는 테스트 프로젝트에서 하세요.
 
-## Dev setup
+## 개발 환경 준비
 
 ```bash
 git clone https://github.com/Mrbaeksang/flow-team-skill.git
 cd flow-team-skill
-cp .env.example .env          # paste your Flow API key
-npm run check                 # syntax-check the client
-npm run me                    # live smoke test (needs a valid key)
+cp .env.example .env          # Flow API 키 붙여넣기
+npm run check                 # 클라이언트 문법 검사
+npm run me                    # 실제 연결 스모크 테스트 (유효한 키 필요)
 ```
 
-No build step — it's plain ES modules.
+빌드 단계는 없습니다 — 순수 ES 모듈입니다.
 
-## Making changes
+## 변경 작업 흐름
 
-1. Open an issue describing the change (bug, new endpoint, doc fix).
-2. Branch from `main`: `git switch -c feat/short-description`.
-3. Keep edits focused. Match the existing style (small functions, clear names).
-4. If you touched the API surface:
-   - Update `skills/flow-team/reference/API.md` (schema + status marker).
-   - Update `skills/flow-team/scripts/flow.mjs` if a convenience method fits.
-   - Note the change in `CHANGELOG.md` under "Unreleased".
-5. Run `npm run check` before pushing.
-6. Open a PR using the template; link the issue.
+1. 변경할 내용을 설명하는 이슈를 먼저 엽니다 (버그·새 엔드포인트·문서 수정).
+2. `main`에서 브랜치를 땁니다: `git switch -c feat/short-description`.
+3. 편집은 한 가지에 집중합니다. 기존 스타일(작은 함수, 명확한 이름)을 따릅니다.
+4. API 표면을 건드렸다면:
+   - `skills/flow-team/reference/API.md` 갱신 (스키마 + 상태 표시).
+   - 편의 메서드가 어울리면 `skills/flow-team/scripts/flow.mjs` 갱신.
+   - `CHANGELOG.md`의 "Unreleased"에 변경 내용 기록.
+5. 푸시 전에 `npm run check` 실행.
+6. PR 템플릿으로 PR을 열고 이슈를 연결합니다.
 
-## Commit messages
+## 커밋 메시지
 
-Conventional-ish prefixes are appreciated: `feat:`, `fix:`, `docs:`, `refactor:`, `chore:`.
-Write the body in whatever language is clearest (Korean or English both fine).
+`feat:`, `fix:`, `docs:`, `refactor:`, `chore:` 같은 컨벤셔널 접두사를 권장합니다.
+본문은 한글로 작성해 주세요.
 
-## Scope
+## 범위
 
-This repo wraps the **Flow Open API** for AI agents. Things that belong here: endpoint
-coverage, schema accuracy, the client helper, agent guidance (SKILL.md), and recipes.
-Things that don't: app-specific business logic, UI, or anything that bundles a key.
+이 레포는 AI 에이전트를 위해 **Flow Open API**를 감쌉니다. 여기 들어갈 것: 엔드포인트 커버리지,
+스키마 정확성, 클라이언트 헬퍼, 에이전트 가이드(SKILL.md), 레시피. 들어가지 않을 것:
+앱 고유 비즈니스 로직, UI, 키를 함께 묶는 모든 것.

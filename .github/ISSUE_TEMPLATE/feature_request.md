@@ -1,19 +1,19 @@
 ---
-name: Feature request
-about: Suggest an endpoint, helper, or recipe to add
-title: "[feat] "
+name: 기능 제안
+about: 추가하면 좋을 엔드포인트·헬퍼·레시피 제안
+title: "[기능] "
 labels: enhancement
 assignees: ''
 ---
 
-## What would you like to add?
+## 무엇을 추가하고 싶나요?
 
-<!-- e.g. coverage for an endpoint, a new flow.mjs helper, a recipe in recipes/ -->
+<!-- 예: 엔드포인트 커버리지, 새 flow.mjs 헬퍼, recipes/ 의 레시피 -->
 
-## Why
+## 왜
 
-<!-- The use case. What agent task does this enable? -->
+<!-- 활용 사례. 어떤 에이전트 작업이 가능해지나요? -->
 
-## Notes
+## 참고
 
-<!-- Endpoint path / docs link / request shape if known. -->
+<!-- 알고 있다면 엔드포인트 경로 / 문서 링크 / 요청 형태. -->

@@ -1,24 +1,24 @@
-<!-- Thanks for contributing! Keep PRs focused. -->
+<!-- 기여해 주셔서 감사합니다! PR은 한 가지에 집중해 주세요. -->
 
-## Summary
+## 요약
 
-<!-- What does this PR do and why? -->
+<!-- 이 PR이 무엇을, 왜 하나요? -->
 
-## Related issue
+## 관련 이슈
 
-<!-- e.g. Closes #12 -->
+<!-- 예: Closes #12 -->
 
-## Type of change
+## 변경 유형
 
-- [ ] Bug fix
-- [ ] New / corrected endpoint coverage
-- [ ] Docs
-- [ ] Refactor / chore
+- [ ] 버그 수정
+- [ ] 엔드포인트 커버리지 추가 / 수정
+- [ ] 문서
+- [ ] 리팩터 / 잡일
 
-## Checklist
+## 체크리스트
 
-- [ ] No secrets committed (`.env` is gitignored; no raw API key anywhere)
-- [ ] `npm run check` passes
-- [ ] If the API surface changed: `reference/API.md` updated with verified schema (✅)
-- [ ] If the client changed: `scripts/flow.mjs` updated and kept zero-dependency
-- [ ] `CHANGELOG.md` "Unreleased" updated
+- [ ] 비밀값 미커밋 (`.env`는 gitignore 대상, 어디에도 실제 API 키 없음)
+- [ ] `npm run check` 통과
+- [ ] API 표면이 바뀐 경우: 검증된 스키마(✅)로 `reference/API.md` 갱신
+- [ ] 클라이언트가 바뀐 경우: `scripts/flow.mjs` 갱신 + 의존성 0 유지
+- [ ] `CHANGELOG.md` "Unreleased" 갱신

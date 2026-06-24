@@ -1,5 +1,5 @@
 blank_issues_enabled: true
 contact_links:
-  - name: Security report
+  - name: 보안 신고
     url: https://github.com/Mrbaeksang/flow-team-skill/security/policy
-    about: Please report anything that could expose an API key privately — see SECURITY.md.
+    about: API 키를 노출할 수 있는 내용은 비공개로 신고해 주세요 — SECURITY.md 참고.

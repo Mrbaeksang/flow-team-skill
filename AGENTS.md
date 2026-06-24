@@ -1,63 +1,61 @@
-# AGENTS.md — instructions for any AI agent working in this repo
+# AGENTS.md — 이 레포에서 작업하는 모든 AI 에이전트를 위한 지침
 
-This repository **is a ready-to-use skill, not an app to build.** A non-developer has most
-likely cloned it and asked you to "analyze it" or "help me with my Flow." Your job is to get
-them using Flow (flow.team) through this skill — quickly, safely, and proactively. Do not
-start writing application code; operate the skill.
+이 저장소는 **만들어야 할 앱이 아니라, 바로 쓰는 스킬입니다.** 비개발자가 이 레포를 클론한 뒤
+"분석해줘" 또는 "내 Flow 좀 도와줘"라고 했을 가능성이 큽니다. 당신의 역할은 이 스킬을 통해 사용자가
+Flow(flow.team)를 **빠르고, 안전하고, 선제적으로** 쓰게 만드는 것입니다. 애플리케이션 코드를 짜기
+시작하지 말고, 스킬을 작동시키세요.
 
-## Do this, in order
+## 순서대로 이렇게 하세요
 
-1. **Read the skill's brain.** Open [`skills/flow-team/SKILL.md`](skills/flow-team/SKILL.md) —
-   it is your operating manual: how to read Flow state (projects, tasks, calendar, members,
-   alarms) and act on it, plus a proactive "chief-of-staff" working style. Deeper endpoint
-   schemas live in [`skills/flow-team/reference/API.md`](skills/flow-team/reference/API.md)
-   (and the verbatim portal scrape in `API-FULL.md`).
+1. **스킬의 두뇌를 읽으세요.** [`skills/flow-team/SKILL.md`](skills/flow-team/SKILL.md)를 여세요 —
+   이것이 당신의 운영 매뉴얼입니다: Flow 상태(프로젝트·업무·캘린더·구성원·알림)를 읽고 행동하는 법,
+   그리고 선제적인 "비서실장" 업무 방식이 담겨 있습니다. 더 깊은 엔드포인트 스키마는
+   [`skills/flow-team/reference/API.md`](skills/flow-team/reference/API.md)에 있습니다
+   (포털 원문 스크랩은 `API-FULL.md`).
 
-2. **Make sure the API key is set.** Every call needs `FLOW_API_KEY` in a `.env` at the repo
-   root. If `.env` is missing, **do not ask for the key in chat.** Instead:
-   - Create an empty `flow-key.txt` at the repo root.
-   - Ask the user to paste their Flow key (from Flow's 키관리 / Key Management page) into that
-     file and save it.
-   - Run `node setup.mjs` — it moves the key into `.env` and deletes `flow-key.txt`. You never
-     read the key yourself.
-   - Verify with `npm run me` → it prints the user's name.
+2. **API 키가 설정됐는지 확인하세요.** 모든 호출은 레포 루트 `.env`의 `FLOW_API_KEY`가 필요합니다.
+   `.env`가 없다면 **채팅으로 키를 묻지 마세요.** 대신:
+   - 레포 루트에 빈 `flow-key.txt`를 만드세요.
+   - 사용자에게 Flow **키관리** 페이지의 키를 그 파일에 붙여넣고 저장하라고 하세요.
+   - `node setup.mjs`를 실행하세요 — 키를 `.env`로 옮기고 `flow-key.txt`를 삭제합니다. 당신은 키를
+     직접 읽지 않습니다.
+   - `npm run me`로 확인하세요 → 사용자 이름이 출력됩니다.
 
-3. **Lead with value.** Run `npm run brief` (read-only) to print today's daily brief — overdue
-   / today / upcoming tasks, unread alarms (mentions first), and today's calendar. Show it,
-   then offer next actions.
+3. **가치부터 보여주세요.** `npm run brief`(읽기 전용)를 실행해 오늘의 데일리 브리핑을 출력하세요 —
+   밀린·오늘·임박 업무, 안 읽은 알림(멘션 우선), 오늘 일정. 보여준 다음 다음 행동을 제안하세요.
 
-4. **Be proactive.** After any read, surface what needs attention (overdue tasks, unread
-   alarms, today's meetings, ownerless tasks) and propose concrete next steps. This skill is a
-   chief-of-staff, not a passive API wrapper.
+4. **선제적으로 움직이세요.** 무언가를 읽은 뒤에는 주목할 것(밀린 업무, 안 읽은 알림, 오늘 회의,
+   담당 없는 업무)을 짚어주고 구체적인 다음 단계를 제안하세요. 이 스킬은 수동적인 API 래퍼가 아니라
+   비서실장입니다.
 
-## Hard rules (do not break)
+## 절대 규칙 (어기지 말 것)
 
-- **The Flow key is a secret.** Never print it, commit it, or accept it pasted in chat — only
-  `.env` (gitignored) holds it.
-- **Writes are real and mostly irreversible** — there is no delete for tasks/posts/schedules/
-  todos (only calendar events). State exactly what you'll write (project, title, dates,
-  assignee) and get a "yes" before every create/update.
-- **Never invent ids.** Resolve project/task/user ids from the read endpoints; a worker/
-  attendee must already be a project participant or the API returns `412`.
-- **Don't clear the alarm inbox casually** (`PATCH /user/alarms/read/all`).
+- **Flow 키는 비밀입니다.** 출력·커밋하지 말고, 채팅에 붙여넣은 키도 받지 마세요 — 오직
+  `.env`(gitignore 대상)에만 둡니다.
+- **쓰기는 실제이며 대부분 되돌릴 수 없습니다** — 업무·게시글·일정·할일에는 삭제가 없습니다
+  (캘린더 이벤트만 삭제 가능). 무엇을 쓸지(프로젝트·제목·날짜·담당자) 정확히 말하고, 모든
+  생성/수정 전에 "예"를 받으세요.
+- **ID를 지어내지 마세요.** 프로젝트/업무/사용자 ID는 읽기 엔드포인트로 확인하세요. 작업자/참석자는
+  이미 프로젝트 참여자여야 하며, 아니면 API가 `412`를 반환합니다.
+- **알림함을 함부로 비우지 마세요** (`PATCH /user/alarms/read/all`).
 
-## What the user can just ask for (recipe catalog in `skills/flow-team/recipes/`)
+## 사용자가 그냥 시키면 되는 것 (레시피 카탈로그 `skills/flow-team/recipes/`)
 
-| Ask | Recipe |
+| 이렇게 말하면 | 레시피 |
 |---|---|
-| **"추천해줘 / 뭘 자동화하면 좋아?"** | `node scripts/recommend.mjs` — profiles their Flow, ranks the recipes that fit them now |
-| "오늘 브리핑 해줘" | `daily-brief` · or `npm run brief` |
-| "매일 보고서 자동으로 올려줘" | `daily-report` · `npm run report` (schedule via `SCHEDULING.md`) |
+| **"추천해줘 / 뭘 자동화하면 좋아?"** | `node scripts/recommend.mjs` — 사용자의 Flow를 분석해 지금 맞는 레시피를 순위로 |
+| "오늘 브리핑 해줘" | `daily-brief` · 또는 `npm run brief` |
+| "매일 보고서 자동으로 올려줘" | `daily-report` · `npm run report` (스케줄은 `SCHEDULING.md`) |
 | "회의록 붙여넣을게, 업무로 만들어줘" | `meeting-to-tasks` |
 | "마감 지난 업무 점검해줘" | `overdue-triage` |
 | "나 멘션된 거 정리해줘" | `mention-zero` |
 
-New recipes: copy `recipes/_TEMPLATE.md`, or scaffold one from the user's description. The
-catalog (`recipes/_index.md`) explains how recommendation matching works.
+새 레시피: `recipes/_TEMPLATE.md`를 복사하거나, 사용자의 설명으로 하나 만들어 주세요. 카탈로그
+(`recipes/_index.md`)에 추천 매칭이 어떻게 동작하는지 설명돼 있습니다.
 
-## Note on "installing" as a Claude Code skill (optional)
+## Claude Code 스킬로 "설치"하기 (선택)
 
-Auto-discovery as a Claude Code skill requires the skill to live under `~/.claude/skills/` or a
-project's `.claude/skills/`. For the "analyze this repo" flow above you don't need that — just
-read `SKILL.md` and follow it. To register it permanently, symlink or copy
-`skills/flow-team` into `~/.claude/skills/`.
+Claude Code 스킬로 자동 인식되려면 스킬이 `~/.claude/skills/` 또는 프로젝트의 `.claude/skills/`
+아래에 있어야 합니다. 위의 "이 레포 분석해줘" 흐름에는 그게 필요 없습니다 — `SKILL.md`를 읽고
+따르기만 하면 됩니다. 영구 등록하려면 `skills/flow-team`을 `~/.claude/skills/`에 심볼릭 링크하거나
+복사하세요.

@@ -1,33 +1,29 @@
-# Security Policy
+# 보안 정책
 
-## The API key is the only secret here
+## 여기서 유일한 비밀값은 API 키입니다
 
-This project is a thin wrapper around the Flow Open API. The single sensitive value is
-your **Flow API key**.
+이 프로젝트는 Flow Open API를 얇게 감싼 래퍼입니다. 민감한 값은 단 하나, 당신의 **Flow API 키**뿐입니다.
 
-- Store it **only** in a local `.env` file (gitignored). Never in code, docs, issues,
-  PRs, screenshots, or slides.
-- The client (`scripts/flow.mjs`) reads the key from `FLOW_API_KEY` / `.env` and never
-  prints it.
-- Writes hit a real workspace immediately. Experiment in a throwaway/test project.
+- 키는 **오직** 로컬 `.env` 파일(gitignore 대상)에만 보관하세요. 코드·문서·이슈·PR·스크린샷·슬라이드에
+  절대 넣지 마세요.
+- 클라이언트(`scripts/flow.mjs`)는 `FLOW_API_KEY` / `.env`에서 키를 읽으며 절대 출력하지 않습니다.
+- 쓰기 작업은 즉시 실제 워크스페이스에 반영됩니다. 버리는 테스트 프로젝트에서 실험하세요.
 
-## If a key is exposed
+## 키가 노출됐다면
 
-Rotate it right away from Flow's **키관리 (Key Management)** page — issuing a new key
-invalidates the old one. Then scrub it from wherever it leaked (and from git history if
-it was committed).
+Flow **키관리** 페이지에서 즉시 재발급하세요 — 새 키를 발급하면 기존 키는 무효화됩니다. 그런 다음
+유출된 위치(커밋했다면 git 히스토리 포함)에서 키를 깨끗이 제거하세요.
 
-## Reporting a vulnerability
+## 취약점 신고
 
-Found a security issue in this repo (e.g. a code path that could leak the key, or a
-dependency risk)?
+이 레포에서 보안 이슈(예: 키가 새어 나갈 수 있는 코드 경로, 의존성 위험)를 발견했다면?
 
-- **Do not** open a public issue for anything that could expose secrets.
-- Email **qortkdgus95@gmail.com** with details and steps to reproduce.
-- For non-sensitive hardening ideas, a regular issue is fine.
+- 비밀값을 노출할 수 있는 내용은 **공개 이슈로 열지 마세요.**
+- **qortkdgus95@gmail.com** 으로 상세 내용과 재현 절차를 보내 주세요.
+- 민감하지 않은 보안 강화 아이디어는 일반 이슈로 올려도 괜찮습니다.
 
-We'll acknowledge within a few days and aim to address confirmed issues promptly.
+며칠 안에 확인하고, 확인된 이슈는 신속히 해결하도록 노력하겠습니다.
 
-## Supported versions
+## 지원 버전
 
-This is an early-stage project; only the latest `main` is supported.
+초기 단계 프로젝트라 최신 `main`만 지원합니다.
