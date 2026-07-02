@@ -62,9 +62,24 @@ export async function call(method, path, body, { retries = 3 } = {}) {
   };
   if (body !== undefined) opts.body = JSON.stringify(body);
 
+  // network errors get extra patience: a scheduled run can fire right after wake,
+  // before Wi-Fi/DNS is up (seen as `getaddrinfo ENOTFOUND api.flow.team`).
+  const netRetries = Math.max(retries, 8);
+
   for (let attempt = 0; ; attempt++) {
-    const res = await fetch(BASE + path, opts);
-    const text = await res.text();
+    let res, text;
+    try {
+      res = await fetch(BASE + path, opts);
+      text = await res.text();
+    } catch (err) {
+      if (attempt < netRetries) {
+        const waitMs = [3000, 5000, 10000, 15000, 20000, 30000, 30000, 30000][attempt] ?? 30000;
+        console.error(`[flow] network error (${err.cause?.code || err.message}) — retry in ${waitMs / 1000}s (${attempt + 1}/${netRetries})`);
+        await sleep(waitMs);
+        continue;
+      }
+      throw err;
+    }
     let json;
     try { json = JSON.parse(text); }
     catch { throw new Error(`Non-JSON response (${res.status}): ${text.slice(0, 200)}`); }
