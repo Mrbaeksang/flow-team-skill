@@ -21,8 +21,10 @@ const fmtT = (s) => s ? `${String(s).slice(8,10)}:${String(s).slice(10,12)}` : "
 const num8 = (s) => s ? Number(String(s).slice(0, 8)) : null;
 
 const col = (t, def) => ((t.columns ?? []).find((c) => c.defaultColumnType === def)?.columnData ?? [])[0] ?? null;
-const workersOf = (t) => (t.columns ?? []).filter((c) => c.defaultColumnType === "WORKER_ID")
-  .flatMap((c) => c.columnData ?? []).map((d) => d.customColumnData);
+const workersOf = (t) => {
+  const wc = (t.columns ?? []).find((c) => c.defaultColumnType === "WORKER_ID");
+  return wc ? (wc.columnData ?? []).map((d) => d.customColumnData) : null; // null = 담당자 컬럼 없는 공지/안내형
+};
 const endOf = (t) => ((t.columns ?? []).find((c) => c.columnType === "DATE" && c.defaultColumnType === "END_DT")?.columnData ?? [])[0]?.customColumnData ?? null;
 const taskIdOf = (t) => t.taskId;
 
@@ -32,6 +34,7 @@ const DONE = ["완료", "운영 확인 완료", "보류"]; // statuses treated a
 export async function gatherBrief(today, { projectFilter = [], deep = false } = {}) {
   const me = await flow.me();
   const ME = me.userId;
+  const MY_EMAIL = me.email ?? null;
   const SOON = Number(addDays(today, 3));
   const TODAY = Number(today);
 
@@ -41,13 +44,13 @@ export async function gatherBrief(today, { projectFilter = [], deep = false } = 
   for (const p of scope) {
     let data; try { data = await flow.tasks(p.projectId, { pageSize: 100 }); } catch { continue; }
     for (const t of data.tasks ?? []) {
-      const ws = workersOf(t);
+      const ws = workersOf(t); // null = 공지/안내형(담당 개념 없음) · [] = 담당자 컬럼 있으나 미배정
       const st = col(t, "STATUS");
       const rec = { project: p.title, projectId: p.projectId, taskId: taskIdOf(t),
         title: col(t, "TASK_NM")?.customColumnData ?? "(무제)",
-        status: st?.optionName ?? "", statusCat: st?.optionCategory ?? "", end: endOf(t), workers: ws };
-      if (ws.includes(ME)) mine.push(rec);
-      else if (ws.length === 0) ownerlessAll.push(rec); // unassigned tasks in my projects
+        status: st?.optionName ?? "", statusCat: st?.optionCategory ?? "", end: endOf(t), workers: ws ?? [] };
+      if (ws && (ws.includes(ME) || (MY_EMAIL && ws.includes(MY_EMAIL)))) mine.push(rec);
+      else if (ws && ws.length === 0) ownerlessAll.push(rec); // 담당자 컬럼 있으나 미배정 (공지형 제외)
     }
   }
   // "not actionable" = explicit names OR status category 2 (done) / 3 (hold)
